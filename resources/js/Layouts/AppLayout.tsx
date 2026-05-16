@@ -1,0 +1,19 @@
+import { ReactNode } from 'react';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SmoothScroll from '@/components/SmoothScroll';
+
+const HIDE_NAVBAR_ON = ['/aspirationForm', '/linkPage'];
+
+export default function AppLayout({ children }: { children: ReactNode }) {
+    const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+    const showNavbar = !HIDE_NAVBAR_ON.includes(pathname);
+
+    return (
+        <SmoothScroll>
+            {showNavbar && <Navbar />}
+            <main>{children}</main>
+            <Footer />
+        </SmoothScroll>
+    );
+}

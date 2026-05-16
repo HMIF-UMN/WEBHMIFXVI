@@ -1,0 +1,205 @@
+﻿
+import { motion, AnimatePresence } from 'framer-motion';
+import { getTitleColor } from '@/Components/AboutUs/datas/division';
+import { kpiMembers } from '@/Components/AboutUs/datas/kpiMembers';
+
+interface KpiHistoryModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    activeDivision: any;
+}
+
+export default function KpiHistoryModal({ isOpen, onClose, activeDivision }: KpiHistoryModalProps) {
+    if (!isOpen || !activeDivision) return null;
+
+    const themeColor = getTitleColor(activeDivision.singkatan);
+
+    // TOP 3 (PERIODE 1 - 12)
+    const top3Overall = [...activeDivision.members].map((m: any) => {
+        const memberData = kpiMembers[m.name as keyof typeof kpiMembers];
+        return { 
+            ...m, 
+            overallScore: memberData ? memberData.overall : 0 
+        };
+    })
+    .sort((a, b) => b.overallScore - a.overallScore) 
+    .slice(0, 3) 
+    .map((m, idx) => ({ ...m, rank: idx + 1 })); 
+
+    // PODIUM
+    const podiumMembers = [];
+    if (top3Overall.length === 3) {
+        podiumMembers.push(top3Overall[1], top3Overall[0], top3Overall[2]);
+    } else {
+        podiumMembers.push(...top3Overall);
+    }
+
+    const generateRealHistory = () => {
+        const periods = ["Periode Week 9-12", "Periode Week 5-8", "Periode Week 1-4"];
+
+        return periods.map((periodName) => {
+            const membersWithScore = activeDivision.members.map((m: any) => {
+                const memberData = kpiMembers[m.name as keyof typeof kpiMembers];
+                const score = memberData ? memberData.history[periodName as keyof typeof memberData.history] : 0;
+                return { ...m, avg: score };
+            });
+            const sortedMembers = membersWithScore
+                .sort((a: any, b: any) => b.avg - a.avg)
+                .map((m: any, idx: number) => ({ ...m, rank: idx + 1 }));
+
+            return {
+                period: periodName,
+                members: sortedMembers
+            };
+        });
+    };
+
+    const historyData = generateRealHistory();
+
+    return (
+        <AnimatePresence>
+            <div className="fixed inset-0 z-100 flex items-center justify-center p-4 md:p-6 lg:p-10">
+                {/* Backdrop Blur */}
+                <motion.div 
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                    onClick={onClose}
+                    className="absolute inset-0 bg-[#02050A]/80 backdrop-blur-sm cursor-pointer"
+                />
+
+                {/* Kontainer */}
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                    className="relative w-full max-w-7xl h-[95vh] md:h-[85vh] bg-[#070D18] border border-[#1A2333] shadow-[0_0_20px_rgba(0,168,232,0.1)] rounded-2xl flex flex-col md:flex-row overflow-hidden"
+                >
+                    {/* LAYER BACKGROUND */}
+                    <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+                        {activeDivision.image && (
+                            <img 
+                                src={activeDivision.image} 
+                                alt={`${activeDivision.name} Background`} 
+                                className="object-cover opacity-20 grayscale mix-blend-luminosity" 
+                            />
+                        )}
+                        <div className="absolute inset-0 bg-linear-to-r from-[#000000]/25 via-[#070D18]/90 to-[#070D18]" />
+                        <div className="absolute inset-0 bg-linear-to-t from-[#070D18] via-transparent to-transparent" />
+                        <div className="absolute inset-0 opacity-40">
+                            <img 
+                                src="/assets/AboutUs/historyKpi/BackgroundLeft.svg" 
+                                alt="Background Motif" 
+                                className="object-cover md:object-contain object-top-left"
+                            />
+                        </div>
+                    </div>
+
+                    <button onClick={onClose} className="absolute top-4 right-4 md:top-6 md:right-6 text-slate-400 hover:text-white transition-colors z-50 bg-[#070D18]/50 md:bg-transparent rounded-full p-1 md:p-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+
+                    {/* KOLOM KIRI */}
+                    <div className="relative z-10 w-full md:w-[45%] flex flex-col shrink-0 p-5 md:p-8 lg:p-10">
+                        
+                        <div className="border-b border-[#1A2333] pb-3 md:pb-5 shrink-0">
+                            <h2 className="text-2xl md:text-3xl lg:text-[2.75rem] font-['Kanit'] font-semibold text-white leading-tight tracking-tight">
+                                Key Performance Indicator <span className="text-[#00A8E8]">History</span>
+                            </h2>
+                            <p className="text-slate-400 font-['Kanit'] font-semibold mt-1 md:mt-2 tracking-[0.2em] uppercase text-[10px] md:text-sm">
+                                {activeDivision.name}
+                            </p>
+                        </div>
+
+                        {/* Top 3 Rankings Podium */}
+                        <div className="mt-4 md:mt-6 flex flex-col md:grow min-h-0 md:min-h-80">
+                            <h3 className="text-white font-['Kanit'] font-semibold text-sm md:text-base mb-3 lg:mb-6 shrink-0">
+                                Top 3 Rankings: Week 1 – 12
+                            </h3>
+                            
+                            <div className="flex items-end justify-center gap-2 lg:gap-4 w-full h-56 md:h-auto md:grow pb-2 md:pb-8">
+                                {podiumMembers.map((member) => {
+                                    const heightClass = member.rank === 1 ? "h-full" : member.rank === 2 ? "h-[85%]" : "h-[75%]";
+                                    
+                                    return (
+                                        <div key={member.name} className={`relative flex flex-col justify-end w-[32%] max-w-45 rounded-2xl overflow-hidden border border-[#1A2333] bg-[#0B1524] ${heightClass} shadow-lg transition-transform hover:-translate-y-1`}>
+                                            <div className="absolute inset-0 z-0">
+                                                {member.image ? (
+                                                    <img src={member.image} alt={member.name} className="object-cover object-top" />
+                                                ) : (
+                                                    <div className="w-full h-full bg-slate-800" />
+                                                )}
+                                            </div>
+                                            <div className="absolute bottom-0 left-0 w-full h-[45%] z-10 bg-linear-to-t from-[#070D18] via-[#070D18]/80 to-transparent" />
+                                            <div className="relative z-20 flex flex-col items-center text-center p-2 lg:p-3 mt-auto pb-2 md:pb-4 lg:pb-5">
+                                                <h4 className="text-white font-semibold font-['Kanit'] text-[11px] md:text-sm lg:text-base leading-tight mb-2 line-clamp-2">
+                                                    {member.name}
+                                                </h4>                                                
+                                                <div className="flex flex-col items-center">
+                                                    <p className="text-slate-500 font-['Work_Sans'] text-[8px] uppercase font-semibold mb-0.5">AVG KPI</p>
+                                                    <p className="text-white font-semibold font-['Kanit'] text-lg md:text-2xl leading-none">
+                                                        {member.overallScore}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* KOLOM KANAN */}
+                    <div className="relative z-10 w-full md:w-[55%] flex flex-col grow overflow-hidden pt-0 md:pt-16 lg:pt-20 pb-4 md:pb-8 lg:pb-10 pr-4 md:pr-8 lg:pr-10 pl-4 md:pl-2">
+                        <div 
+                            className="grow overflow-y-auto custom-scrollbar pr-3 md:pr-6 space-y-6 md:space-y-8 overscroll-contain pb-6 md:pb-0"
+                            data-lenis-prevent="true"
+                            onWheel={(e) => e.stopPropagation()}
+                            onTouchMove={(e) => e.stopPropagation()}
+                        >
+                            {historyData.map((data, index) => (
+                                <div key={index} className="flex flex-col">
+                                    <div className="flex items-center gap-3 md:gap-4 mb-4 sticky top-0 bg-[#070D18]/95 backdrop-blur-md z-30 rounded-full">
+                                        <div className="border border-[#1A2333] rounded-lg px-4 md:px-5 py-1.5 md:py-2 bg-[#0B1524]">
+                                            <h3 className="text-white font-semibold font-['Kanit'] text-xs md:text-sm whitespace-nowrap">
+                                                {data.period}
+                                            </h3>
+                                        </div>
+                                        <div className="grow h-px bg-[#1A2333]"></div>
+                                    </div>
+
+                                    <div className="flex flex-col gap-2 md:gap-3">
+                                        {data.members.map((member: any) => (
+                                            <div key={member.name} className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl border border-[#1A2333] bg-[#0D182A]/40 hover:bg-[#0D182A]/90 transition-colors">
+                                                
+                                                <div className="w-6 md:w-8 flex justify-center shrink-0">
+                                                    <span className="text-white font-semibold font-['Kanit'] text-lg md:text-xl italic">
+                                                        #{member.rank}
+                                                    </span>
+                                                </div>
+                                                
+                                                <div className="w-10 h-10 md:w-14 md:h-14 rounded-md overflow-hidden relative bg-slate-800 shrink-0">
+                                                    {member.image && <img src={member.image} alt={member.name} className="object-cover object-top" />}
+                                                </div>
+                                                
+                                                <div className="grow min-w-0">
+                                                    <h4 className="text-white font-semibold font-['Kanit'] text-sm md:text-base truncate">{member.name}</h4>
+                                                    <p className="text-slate-400 font-['Work_Sans'] text-[9px] md:text-[10px] uppercase tracking-wider truncate">{member.position || 'Koordinator'}</p>
+                                                </div>
+                                                
+                                                <div className="text-right shrink-0">
+                                                    <p className="text-white font-semibold font-['Kanit'] text-base md:text-xl leading-none">{member.avg}</p>
+                                                    <p className="text-slate-500 font-['Work_Sans'] text-[8px] md:text-[9px] uppercase font-semibold mt-1">AVG KPI</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </motion.div>
+            </div>
+        </AnimatePresence>
+    );
+}
+
+
