@@ -1,15 +1,16 @@
-﻿
+﻿"use client";
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { aboutUsData } from '@/Components/AboutUs/datas/aboutUsData';
-import { MaskImage, getTitleColor } from '@/Components/AboutUs/datas/division';
-import { kpiMembers, divisionKpi } from '@/Components/AboutUs/datas/kpiMembers';
-import KpiHistoryModal from '@/Components/AboutUs/KpiHistory';
+import { aboutUsData } from '@/components/AboutUs/datas/aboutUsData';
+import { MaskImage, getTitleColor } from '@/components/AboutUs/datas/division';
+import { kpiMembers, divisionKpi } from '@/components/AboutUs/datas/kpiMembers';
+import KpiHistoryModal from '@/components/AboutUs/KpiHistory';
+
 const buttonImg = '/assets/AboutUs/assetDetailMembers/ButtonMore.svg';
 const instagram = '/assets/AboutUs/assetDetailMembers/instagram.svg';
 const linkedln = '/assets/AboutUs/assetDetailMembers/linkedln.svg';
 const github = '/assets/AboutUs/assetDetailMembers/github.svg';
-
 
 export default function DivisionSection() {
     const [activeIndex, setActiveIndex] = useState(3);
@@ -73,12 +74,12 @@ export default function DivisionSection() {
                                 }}
                                 className={`relative aspect-square transition-all duration-300 ease-in-out ${widthClass} ${isActive ? 'z-20 drop-shadow-[0_0_3px_rgba(255,255,255,1)] opacity-100' : 'z-10 opacity-100 hover:brightness-110'}`}
                             >
-                                <img src={MaskImage(div.singkatan)} alt={div.singkatan} className="object-cover object-top" />
+                                <img src={MaskImage(div.singkatan)} alt={div.singkatan} className="absolute inset-0 w-full h-full object-cover object-top" />
                             </button>
                         );
                     })}
                     <div className="relative aspect-square w-[25%] md:hidden z-10 opacity-100 pointer-events-none">
-                        <img src={MaskImage("Blank")} alt="Blank Mask" className="object-cover object-top" />
+                        <img src={MaskImage("Blank")} alt="Blank Mask" className="absolute inset-0 w-full h-full object-cover object-top" />
                     </div>
                 </div>
             </div>
@@ -92,15 +93,15 @@ export default function DivisionSection() {
                 transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
             >
                 {activeDivision.image && (
-                    <img src={activeDivision.image} alt={activeDivision.name} className="object-cover object-right grayscale mix-blend-luminosity" />
+                    <img src={activeDivision.image} alt={activeDivision.name} className="absolute inset-0 w-full h-full object-cover object-right grayscale mix-blend-luminosity" />
                 )}
                 
-                <div className="absolute inset-0 bg-linear-to-r from-[#060C17] via-[#060C17]/95 to-[#060C17]/10" />
-                <div className="absolute inset-0 bg-linear-to-t from-[#060C17] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#060C17] via-[#060C17]/95 to-[#060C17]/10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#060C17] via-transparent to-transparent" />
             </motion.div>
 
             {/* CONTENT AREA */}
-            <div className="relative z-10 grow w-full max-w-360 mx-auto px-6 sm:px-10 md:px-24 h-full flex flex-col justify-center pt-[60vw] sm:pt-[45vw] md:pt-[20vw] lg:pt-48 pb-12 lg:pb-20">
+            <div className="relative z-10 grow w-full max-w-[90rem] mx-auto px-6 sm:px-10 md:px-24 h-full flex flex-col justify-center pt-[60vw] sm:pt-[45vw] md:pt-[20vw] lg:pt-48 pb-12 lg:pb-20">
                 <AnimatePresence mode="wait">
 
                     {!showDetail ? (
@@ -125,7 +126,7 @@ export default function DivisionSection() {
                                     {activeDivision.name}
                                 </motion.h1>
 
-                                <motion.p variants={contentVariants} className="text-[#C2CAD6] font-['Work_Sans'] text-[10px] sm:text-xs md:text-sm lg:text-base mb-6 md:mb-10 uppercase tracking-[0.15em] leading-relaxed max-w-3xl">
+                                <motion.p variants={contentVariants} className="text-[#C2CAD6] font-['Work_Sans'] text-[10px] sm:text-xs md:text-sm lg:text-[15px] mb-8 lg:mb-12 uppercase tracking-[0.15em] leading-relaxed max-w-3xl">
                                     {activeDivision.members.map(m => m.name).join(" • ")}
                                 </motion.p>
 
@@ -134,19 +135,17 @@ export default function DivisionSection() {
                                     onClick={() => setShowDetail(true)}
                                     whileHover={{ scale: 1.05, opacity: 1 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="hidden lg:block opacity-80 cursor-pointer"
+                                    className="hidden lg:block opacity-90 hover:opacity-100 cursor-pointer transition-opacity"
                                 >
                                     <img
                                         src={buttonImg}
                                         alt="Get to Know More"
-                                        width={180}
-                                        height={45}
-                                        className="w-auto h-auto"
+                                        className="w-[180px] lg:w-[220px] h-auto object-contain"
                                     />
                                 </motion.button>
                             </motion.div>
 
-                            <motion.div variants={contentVariants} className="lg:col-span-4 flex flex-col items-start lg:items-end text-left lg:text-right order-2 lg:order-2 mt-2 lg:mt-0 lg:pb-6">
+                            <motion.div variants={contentVariants} className="lg:col-span-4 flex flex-col items-start lg:items-end text-left lg:text-right order-2 lg:order-2 mt-4 lg:mt-0 lg:pb-6">
                                 <p className="text-slate-400 font-['Work_Sans'] text-xs sm:text-sm md:text-base font-normal leading-normal mb-0 md:mb-1">
                                     With this month of
                                 </p>
@@ -171,14 +170,12 @@ export default function DivisionSection() {
                                     onClick={() => setShowDetail(true)}
                                     whileHover={{ scale: 1.05, opacity: 1 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="mt-8 opacity-80 cursor-pointer lg:hidden px-6 py-2 transition-all duration-300"
+                                    className="mt-10 opacity-90 cursor-pointer lg:hidden transition-all duration-300"
                                 >
                                     <img
                                         src={buttonImg}
                                         alt="Get to Know More"
-                                        width={180}
-                                        height={45}
-                                        className="w-auto h-auto"
+                                        className="w-[180px] h-auto object-contain"
                                     />
                                 </motion.button>
                             </motion.div>
@@ -196,23 +193,23 @@ export default function DivisionSection() {
                         >
                             {/* KIRI: IMAGE NIMPA */}
                             <div className="lg:col-span-6 flex justify-center items-center relative min-h-[50vh] lg:min-h-[70vh]">
-                                <div className="relative w-[70%] sm:w-[60%] lg:w-87.5 xl:w-100 aspect-3/4">
+                                <div className="relative w-[70%] max-w-[280px] sm:max-w-[320px] lg:max-w-[380px] aspect-[3/4]">
 
                                     {hasMultipleMembers && (
                                         <>
-                                            <div className="absolute -top-6 -right-12 md:-top-12 md:-right-24 w-[60%] md:w-[70%] aspect-3/4 z-0 opacity-40 brightness-50">
+                                            <div className="absolute -top-6 -right-12 md:-top-12 md:-right-24 w-[60%] md:w-[70%] aspect-[3/4] z-0 opacity-40 brightness-50">
                                                 <img
                                                     src={activeDivision.members[(activeMemberIndex + 1) % activeDivision.members.length]?.image || activeDivision.image}
                                                     alt="Next Member"
-                                                    className="object-cover rounded-md"
+                                                    className="absolute inset-0 w-full h-full object-cover rounded-md"
                                                 />
                                             </div>
 
-                                            <div className="absolute -bottom-8 -right-8 md:-bottom-16 md:-right-12 w-[50%] md:w-[60%] aspect-3/4 z-0 opacity-30 brightness-50">
+                                            <div className="absolute -bottom-8 -right-8 md:-bottom-16 md:-right-12 w-[50%] md:w-[60%] aspect-[3/4] z-0 opacity-30 brightness-50">
                                                 <img
                                                     src={activeDivision.members[(activeMemberIndex + 2) % activeDivision.members.length]?.image || activeDivision.image}
                                                     alt="Next Next Member"
-                                                    className="object-cover rounded-md"
+                                                    className="absolute inset-0 w-full h-full object-cover rounded-md"
                                                 />
                                             </div>
                                         </>
@@ -229,7 +226,7 @@ export default function DivisionSection() {
                                             className="absolute inset-0 z-10 drop-shadow-2xl rounded-sm overflow-hidden bg-slate-800"
                                         >
                                             {activeMember.image ? (
-                                                <img src={activeMember.image} alt={activeMember.name} className="object-cover" />
+                                                <img src={activeMember.image} alt={activeMember.name} className="absolute inset-0 w-full h-full object-cover" />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center text-slate-500">No Image</div>
                                             )}
@@ -237,8 +234,8 @@ export default function DivisionSection() {
                                     </AnimatePresence>
 
                                     {/* SVG Mask */}
-                                    <div className="absolute -left-10 -bottom-8 md:-left-16 md:-bottom-12 w-30 h-30 md:w-45 md:h-45 z-20 drop-shadow-xl">
-                                        <img src={MaskImage(activeDivision.singkatan)} alt="Mask" className="object-contain" />
+                                    <div className="absolute -left-10 -bottom-8 md:-left-16 md:-bottom-12 w-[120px] h-[120px] md:w-[180px] md:h-[180px] z-20 drop-shadow-xl">
+                                        <img src={MaskImage(activeDivision.singkatan)} alt="Mask" className="absolute inset-0 w-full h-full object-contain" />
                                     </div>
 
                                     {/* KPI  */}
@@ -269,13 +266,13 @@ export default function DivisionSection() {
 
                                 {hasMultipleMembers ? (
                                     <button onClick={prevMember} className="opacity-60 hover:opacity-100 transition-opacity mb-4 cursor-pointer">
-                                        <img src="/assets/AboutUs/assetDetailMembers/FrameUp.svg" alt="Up" width={32} height={32} />
+                                        <img src="/assets/AboutUs/assetDetailMembers/FrameUp.svg" alt="Up" className="w-[32px] h-[32px]" />
                                     </button>
                                 ) : (
-                                    <div className="h-8 w-8 mb-4"></div>
+                                    <div className="h-[32px] w-[32px] mb-4"></div>
                                 )}
 
-                                <div className="h-50 md:h-55 flex flex-col items-center justify-center w-full">
+                                <div className="min-h-[200px] md:min-h-[220px] flex flex-col items-center justify-center w-full">
                                     <AnimatePresence mode="wait">
                                         <motion.div
                                             key={activeMemberIndex}
@@ -292,7 +289,7 @@ export default function DivisionSection() {
                                                 {activeMember.name}
                                             </h2>
                                             
-                                            <p className="text-slate-300 font-['Work_Sans'] text-xs md:text-sm italic leading-relaxed min-h-10">
+                                            <p className="text-slate-300 font-['Work_Sans'] text-xs md:text-sm italic leading-relaxed min-h-[40px]">
                                                 {activeMember.quote ? `"${activeMember.quote}"` : " "}
                                             </p>
                                         </motion.div>
@@ -303,35 +300,35 @@ export default function DivisionSection() {
                                 <div className="flex gap-6 mt-4 mb-6 items-center justify-center">
                                     {activeMember.instagram ? (
                                         <a href={activeMember.instagram} target="_blank" rel="noopener noreferrer">
-                                            <img src={instagram} alt="Instagram" width={22} height={22} className="opacity-60 hover:opacity-100 cursor-pointer transition-opacity" />
+                                            <img src={instagram} alt="Instagram" className="w-[22px] h-[22px] opacity-60 hover:opacity-100 cursor-pointer transition-opacity" />
                                         </a>
                                     ) : (
-                                        <div className="w-5.5 h-5.5 opacity-20"><img src={instagram} alt="Instagram (No Link)" width={22} height={22} /></div>
+                                        <div className="w-[22px] h-[22px] opacity-20"><img src={instagram} alt="Instagram" className="w-full h-full" /></div>
                                     )}
                                     
                                     {activeMember.linkedin ? (
                                         <a href={activeMember.linkedin} target="_blank" rel="noopener noreferrer">
-                                            <img src={linkedln} alt="LinkedIn" width={22} height={22} className="opacity-60 hover:opacity-100 cursor-pointer transition-opacity" />
+                                            <img src={linkedln} alt="LinkedIn" className="w-[22px] h-[22px] opacity-60 hover:opacity-100 cursor-pointer transition-opacity" />
                                         </a>
                                     ) : (
-                                        <div className="w-5.5 h-5.5 opacity-20"><img src={linkedln} alt="LinkedIn (No Link)" width={22} height={22} /></div>
+                                        <div className="w-[22px] h-[22px] opacity-20"><img src={linkedln} alt="LinkedIn" className="w-full h-full" /></div>
                                     )}
                                     
                                     {activeMember.github ? (
                                         <a href={activeMember.github} target="_blank" rel="noopener noreferrer">
-                                            <img src={github} alt="Github" width={22} height={22} className="opacity-60 hover:opacity-100 cursor-pointer transition-opacity" />
+                                            <img src={github} alt="Github" className="w-[22px] h-[22px] opacity-60 hover:opacity-100 cursor-pointer transition-opacity" />
                                         </a>
                                     ) : (
-                                        <div className="w-5.5 h-5.5 opacity-20"><img src={github} alt="Github (No Link)" width={22} height={22} /></div>
+                                        <div className="w-[22px] h-[22px] opacity-20"><img src={github} alt="Github" className="w-full h-full" /></div>
                                     )}
                                 </div>
 
                                 {hasMultipleMembers ? (
                                     <button onClick={nextMember} className="opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
-                                        <img src="/assets/AboutUs/assetDetailMembers/FrameDown.svg" alt="Down" width={32} height={32} />
+                                        <img src="/assets/AboutUs/assetDetailMembers/FrameDown.svg" alt="Down" className="w-[32px] h-[32px]" />
                                     </button>
                                 ) : (
-                                    <div className="h-8 w-8"></div>
+                                    <div className="h-[32px] w-[32px]"></div>
                                 )}
 
                             </div>
@@ -350,5 +347,3 @@ export default function DivisionSection() {
         </section>
     );
 }
-
-
