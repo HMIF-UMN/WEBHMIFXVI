@@ -1,3 +1,6 @@
+import { useForm, usePage } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
+
 const socialLinks = [
     { icon: '/assets/Home/contactus/email.svg', label: 'hmif@umn.ac.id', href: 'https://mail.google.com/mail/u/0/?fs=1&to=hmif@umn.ac.id&tf=cm' },
     { icon: '/assets/Home/contactus/discord.svg', label: 'Discord Informatika UMN', href: 'https://discord.gg/ywjuhAmXut' },
@@ -8,6 +11,20 @@ const socialLinks = [
 const inputClass = 'w-full border border-white/30 rounded-full px-7 py-2 bg-transparent text-[#C2CAD6] text-xl placeholder:text-[#C2CAD6]/50 outline-none focus:border-[#149ED8]/60 transition-colors';
 
 export default function ContactUs() {
+    const { contact_success } = usePage().props as any;
+
+    const { data, setData, post, processing, errors, reset } = useForm({
+        first_name: '',
+        last_name: '',
+        email: '',
+        message: '',
+    });
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+        post(route('contact.store'), { onSuccess: () => reset() });
+    };
+
     return (
         <section className="relative w-full bg-[#010511] py-24 px-6 overflow-hidden">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
@@ -39,29 +56,77 @@ export default function ContactUs() {
                         <h3 className="font-kanit text-[#F0F2F5] text-[40px] leading-[0.9] tracking-[-2px]">Get in Touch</h3>
                         <p className="text-[#C2CAD6] text-xl" style={{ fontFamily: 'var(--font-work-sans)' }}>Reach us anytime.</p>
                     </div>
-                    <div className="flex flex-col gap-5">
-                        <div className="flex gap-5">
-                            <div className="flex flex-col gap-2 flex-1">
-                                <label className="text-[#C2CAD6] text-xl font-semibold" style={{ fontFamily: 'var(--font-work-sans)' }}>First Name</label>
-                                <input type="text" placeholder="Jane" className={`${inputClass}`} style={{ fontFamily: 'var(--font-work-sans)' }} />
+
+                    {contact_success ? (
+                        <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
+                            <svg className="w-12 h-12 text-[#149ED8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <p className="text-[#F0F2F5] text-xl font-kanit">Message sent!</p>
+                            <p className="text-[#C2CAD6] text-base" style={{ fontFamily: 'var(--font-work-sans)' }}>We'll get back to you soon.</p>
+                        </div>
+                    ) : (
+                        <form onSubmit={submit} className="flex flex-col gap-5">
+                            <div className="flex gap-5">
+                                <div className="flex flex-col gap-2 flex-1">
+                                    <label className="text-[#C2CAD6] text-xl font-semibold" style={{ fontFamily: 'var(--font-work-sans)' }}>First Name</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Jane"
+                                        value={data.first_name}
+                                        onChange={(e) => setData('first_name', e.target.value)}
+                                        className={inputClass}
+                                        style={{ fontFamily: 'var(--font-work-sans)' }}
+                                    />
+                                    {errors.first_name && <p className="text-red-400 text-sm">{errors.first_name}</p>}
+                                </div>
+                                <div className="flex flex-col gap-2 flex-1">
+                                    <label className="text-[#C2CAD6] text-xl font-semibold" style={{ fontFamily: 'var(--font-work-sans)' }}>Last Name</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Doe"
+                                        value={data.last_name}
+                                        onChange={(e) => setData('last_name', e.target.value)}
+                                        className={inputClass}
+                                        style={{ fontFamily: 'var(--font-work-sans)' }}
+                                    />
+                                    {errors.last_name && <p className="text-red-400 text-sm">{errors.last_name}</p>}
+                                </div>
                             </div>
-                            <div className="flex flex-col gap-2 flex-1">
-                                <label className="text-[#C2CAD6] text-xl font-semibold" style={{ fontFamily: 'var(--font-work-sans)' }}>Last Name</label>
-                                <input type="text" placeholder="Doe" className={`${inputClass}`} style={{ fontFamily: 'var(--font-work-sans)' }} />
+                            <div className="flex flex-col gap-2">
+                                <label className="text-[#C2CAD6] text-xl font-semibold" style={{ fontFamily: 'var(--font-work-sans)' }}>Email</label>
+                                <input
+                                    type="email"
+                                    placeholder="your@email.com"
+                                    value={data.email}
+                                    onChange={(e) => setData('email', e.target.value)}
+                                    className={inputClass}
+                                    style={{ fontFamily: 'var(--font-work-sans)' }}
+                                />
+                                {errors.email && <p className="text-red-400 text-sm">{errors.email}</p>}
                             </div>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <label className="text-[#C2CAD6] text-xl font-semibold" style={{ fontFamily: 'var(--font-work-sans)' }}>Email</label>
-                            <input type="email" placeholder="your@email.com" className={inputClass} style={{ fontFamily: 'var(--font-work-sans)' }} />
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <label className="text-[#C2CAD6] text-xl font-semibold" style={{ fontFamily: 'var(--font-work-sans)' }}>Message</label>
-                            <textarea placeholder="Leave us a message..." rows={5} className="w-full border border-white/30 rounded-[33px] px-7 py-3 bg-transparent text-[#C2CAD6] text-xl placeholder:text-[#C2CAD6]/50 outline-none focus:border-[#149ED8]/60 transition-colors resize-none" style={{ fontFamily: 'var(--font-work-sans)' }} />
-                        </div>
-                    </div>
-                    <button className="w-full h-[60px] border border-white/30 rounded-full text-[#C2CAD6] text-xl hover:border-[#149ED8]/60 hover:text-[#149ED8] transition-colors cursor-pointer" style={{ fontFamily: 'var(--font-work-sans)', background: 'radial-gradient(ellipse at 50% 110%, rgba(60,94,119,0.20) 0%, rgba(1,5,17,0.11) 100%)' }}>
-                        Submit
-                    </button>
+                            <div className="flex flex-col gap-2">
+                                <label className="text-[#C2CAD6] text-xl font-semibold" style={{ fontFamily: 'var(--font-work-sans)' }}>Message</label>
+                                <textarea
+                                    placeholder="Leave us a message..."
+                                    rows={5}
+                                    value={data.message}
+                                    onChange={(e) => setData('message', e.target.value)}
+                                    className="w-full border border-white/30 rounded-[33px] px-7 py-3 bg-transparent text-[#C2CAD6] text-xl placeholder:text-[#C2CAD6]/50 outline-none focus:border-[#149ED8]/60 transition-colors resize-none"
+                                    style={{ fontFamily: 'var(--font-work-sans)' }}
+                                />
+                                {errors.message && <p className="text-red-400 text-sm">{errors.message}</p>}
+                            </div>
+                            <button
+                                type="submit"
+                                disabled={processing}
+                                className="w-full h-[60px] border border-white/30 rounded-full text-[#C2CAD6] text-xl hover:border-[#149ED8]/60 hover:text-[#149ED8] transition-colors cursor-pointer disabled:opacity-50"
+                                style={{ fontFamily: 'var(--font-work-sans)', background: 'radial-gradient(ellipse at 50% 110%, rgba(60,94,119,0.20) 0%, rgba(1,5,17,0.11) 100%)' }}
+                            >
+                                {processing ? 'Sending…' : 'Submit'}
+                            </button>
+                        </form>
+                    )}
                 </div>
             </div>
         </section>

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export default function HeroSection() {
+export default function HeroSection({ heroImage }: { heroImage?: string | null }) {
     const headingRef = useRef<HTMLHeadingElement>(null);
     const subtitleRef = useRef<HTMLParagraphElement>(null);
     const descRef = useRef<HTMLParagraphElement>(null);
@@ -23,7 +23,7 @@ export default function HeroSection() {
     return (
         <section className="relative w-full min-h-screen flex items-end overflow-hidden pb-24 lg:pb-32">
             <div className="absolute inset-0 z-0">
-                <img src="/assets/Home/HeroIMG.png" alt="HMIF UMN Members" className="w-full h-full object-cover object-top grayscale" />
+                <img src={heroImage ?? '/assets/Home/HeroIMG.png'} alt="HMIF UMN Members" className="w-full h-full object-cover object-top grayscale" />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/55 to-[#010511]" />
             </div>
 
