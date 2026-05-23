@@ -4,32 +4,14 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { aboutUsData } from '@/components/AboutUs/datas/aboutUsData';
 import { MaskImage, getTitleColor } from '@/components/AboutUs/datas/division';
-import { kpiMembers } from '@/components/AboutUs/datas/kpiMembers';
-import KpiHistoryModal from '@/components/AboutUs/KpiHistory';
 
+import { kpiMembers, divisionKpi } from '@/components/AboutUs/datas/kpiMembers';
+import KpiHistoryModal from '@/components/AboutUs/KpiHistory'; 
 const buttonImg = '/assets/AboutUs/assetDetailMembers/ButtonMore.svg';
 const instagram = '/assets/AboutUs/assetDetailMembers/instagram.svg';
 const linkedln = '/assets/AboutUs/assetDetailMembers/linkedln.svg';
 const github = '/assets/AboutUs/assetDetailMembers/github.svg';
 
-// Helper: rata-rata KPI seluruh anggota divisi (semua periode)
-const getDivisionAverageKpi = (members: any[]) => {
-    let totalScore = 0;
-    let totalDataCount = 0;
-
-    members.forEach((m) => {
-        const memberData = kpiMembers[m.name as keyof typeof kpiMembers];
-        if (memberData && memberData.history) {
-            const values = Object.values(memberData.history);
-            totalScore += values.reduce((sum, v) => sum + v, 0);
-            totalDataCount += values.length;
-        }
-    });
-
-    return totalDataCount === 0 ? 0 : Math.floor(totalScore / totalDataCount);
-};
-
-// Helper: rata-rata KPI satu anggota (semua periode)
 const getMemberAverageKpi = (memberName: string): number => {
     const memberData = kpiMembers[memberName as keyof typeof kpiMembers];
     if (!memberData || !memberData.history) return 0;
@@ -48,9 +30,8 @@ export default function DivisionSection() {
     const activeMember = activeDivision.members[activeMemberIndex];
     const hasMultipleMembers = activeDivision.members.length > 1;
 
-    // ✅ Sekarang dihitung sebagai rata-rata dari semua periode, bukan .overall
     const activeMemberKpi = getMemberAverageKpi(activeMember.name);
-    const displayKpi = getDivisionAverageKpi(activeDivision.members);
+    const displayKpi = divisionKpi[activeDivision.name as keyof typeof divisionKpi] || 0;
 
     const nextMember = () => {
         setActiveMemberIndex((prev) => (prev + 1) % activeDivision.members.length);

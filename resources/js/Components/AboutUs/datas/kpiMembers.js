@@ -103,17 +103,17 @@ export const kpiMembers = {
     "Desslyn Marcela": {
         overall: 3097,
         history: {
-            "Periode Week 1-4": 1015,
-            "Periode Week 5-8": 1029,
-            "Periode Week 9-12": 1053,
+            "Periode Week 1-4": 1020,
+            "Periode Week 5-8": 852,
+            "Periode Week 9-12": 1081,
         },
     },
     "Dhita Paramita Citra": {
         overall: 2953,
         history: {
-            "Periode Week 1-4": 1020,
-            "Periode Week 5-8": 852,
-            "Periode Week 9-12": 1081,
+            "Periode Week 1-4": 1015,
+            "Periode Week 5-8": 1029,
+            "Periode Week 9-12": 1053,
         },
     },
     "Naufal Rabbani": {

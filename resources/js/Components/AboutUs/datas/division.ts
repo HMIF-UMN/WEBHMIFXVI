@@ -26,3 +26,4 @@ export const getTitleColor = (singkatan: string) => {
     };
     return colorMap[singkatan] || "#00A8E8";
 };
+
