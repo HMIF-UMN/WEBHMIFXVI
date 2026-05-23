@@ -244,7 +244,7 @@ export const kpiMembers = {
     },
 
     // === PUBLIC RELATION ===
-    "Paulus Vincent Andresson": {
+    "Vincent Andresson": {
         overall: 2835,
         history: {
             "Periode Week 1-4": 1021,
