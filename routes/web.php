@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\KpiController;
 use App\Http\Controllers\Admin\Proker\WordinganController as ProkerWordinganController;
 use App\Http\Controllers\Admin\Proker\WorkProgramController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +20,7 @@ use Inertia\Inertia;
 // ── Main pages ────────────────────────────────────────────────────────────────
 Route::get('/',         [HomeController::class, 'index'])->name('home');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-Route::get('/aboutUs',                 fn() => Inertia::render('AboutUs'))->name('about');
+Route::get('/aboutUs',                 [AboutUsController::class, 'index'])->name('about');
 Route::get('/workProgram',             fn() => Inertia::render('WorkProgram'))->name('workProgram');
 Route::get('/gallery',                 fn() => Inertia::render('Gallery'))->name('gallery');
 Route::get('/information',             fn() => Inertia::render('Information'))->name('information');
@@ -33,14 +34,13 @@ Route::redirect('/ppif',    'https://ppif.umn.ac.id',   301);
 Route::redirect('/byte',    'https://byteumn.com',      301);
 
 // ── Auth routes ───────────────────────────────────────────────────────────────
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 // ── Authenticated routes ──────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', fn() => Inertia::render('Admin/Dashboard'))->name('dashboard');
 
     Route::prefix('admin')->name('admin.')->group(function () {
-
         // Master only
         Route::middleware('role:master')->group(function () {
             Route::resource('users', UserController::class)->except(['show']);
