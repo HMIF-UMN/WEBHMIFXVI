@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { getTitleColor } from '@/components/AboutUs/datas/division';
 import { kpiMembers } from '@/components/AboutUs/datas/kpiMembers';
-
+//titusGanteng
 interface KpiHistoryModalProps {
     isOpen: boolean;
     onClose: () => void;
