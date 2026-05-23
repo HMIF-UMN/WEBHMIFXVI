@@ -37,6 +37,9 @@ Route::redirect('/byte',    'https://byteumn.com',      301);
 // ── Auth routes ───────────────────────────────────────────────────────────────
 require __DIR__.'/auth.php';
 
+// ── Custom admin login entry point (reserved for later) ───────────────────────
+// Route::get('/adminhmifxvi/login', fn() => redirect()->route('login'))->name('admin.entry');
+
 // ── Authenticated routes ──────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', fn() => Inertia::render('Admin/Dashboard'))->name('dashboard');
