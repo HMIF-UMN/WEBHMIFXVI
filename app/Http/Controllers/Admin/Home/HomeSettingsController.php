@@ -32,7 +32,7 @@ class HomeSettingsController extends Controller
         foreach (['about', 'pojok_hmif', 'proker', 'contact'] as $section) {
             SiteContent::set(
                 "section_{$section}_visible",
-                $request->boolean("section_{$section}") ? 'true' : 'false'
+                $request->boolean($section) ? 'true' : 'false'
             );
         }
 
