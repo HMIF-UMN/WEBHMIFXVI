@@ -27,7 +27,13 @@ export default function AspirationForm() {
             <main className="min-h-screen w-full relative overflow-hidden flex items-center justify-center" style={mainStyle}>
                 <Head title="Thank You" />
                 <img src="/assets/Aspiration/Mask group.svg" alt="" className="absolute right-0 bottom-0 pointer-events-none hidden lg:block" />
-                <img src="/assets/Aspiration/Mask group (1).svg" alt="" className="absolute -left-15 -top-50 opacity-50 lg:opacity-100" />
+                <img src="/assets/Aspiration/Mask group (1).svg" alt="" className="absolute -left-15 -top-60 opacity-50 lg:opacity-100" />
+                <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                        background: `radial-gradient(ellipse 530px 450px at 50% 45%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 20%, rgba(0, 0, 0, 0.15) 35%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0.61) 100%)`,
+                    }}
+                />
                 <div className="relative z-10 w-full h-screen flex flex-col items-center justify-center px-6 text-center">
                     <div className="mb-8 lg:mb-12"><img src="/assets/Aspiration/Full.svg" alt="HMIF UMN Logo" width={140} height={120} /></div>
                     <h1 className="font-kanit text-5xl lg:text-8xl font-bold text-white leading-tight tracking-tight">Thank You For</h1>
@@ -47,12 +53,20 @@ export default function AspirationForm() {
         <main className="min-h-screen w-full relative overflow-hidden flex items-center justify-center" style={mainStyle}>
             <Head title="Aspiration Form" />
             <img src="/assets/Aspiration/Mask group.svg" alt="" className="absolute right-0 bottom-0 pointer-events-none hidden lg:block" />
+            <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                background: `radial-gradient(ellipse 520px 365px at 25% 50%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.15) 20%, rgba(0, 0, 0, 0.15) 35%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0.65) 100%)`,
+                }}
+            />
             <div className="relative z-10 w-full max-w-[1500px] mx-auto px-6 py-10 lg:py-16 flex flex-col lg:flex-row lg:items-start lg:gap-24">
                 <div className="flex-1 mb-10 lg:mb-0">
                     <div className="mb-12 lg:mb-38"><img src="/assets/Aspiration/Full.svg" alt="HMIF UMN Logo" width={140} height={120} /></div>
                     <div className="mb-16 lg:mt-12">
                         <h1 className="font-kanit text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight mb-5">Give Your<br /><span className="font-kanit font-bold lg:text-8xl">Aspiration!</span></h1>
-                        <p className="text-[#7ba5c7] text-base leading-relaxed" style={{ fontFamily: 'var(--font-work-sans)' }}>Share your ideas, hopes, and aspirations with us. Your voice can inspire change.</p>
+                        <p className="text-[#7ba5c7] text-base leading-relaxed" style={{ fontFamily: 'var(--font-work-sans)' }}>Share your ideas, hopes, and aspirations with us through this page.
+                        Your voice can inspire change and help create a better experience
+                        for everyone.</p>
                     </div>
                     <div className="flex gap-3">
                         {socialLinks.map((s) => (
