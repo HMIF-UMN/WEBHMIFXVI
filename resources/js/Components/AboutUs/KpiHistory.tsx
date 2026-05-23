@@ -1,33 +1,36 @@
-"use client";
+﻿"use client";
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { getTitleColor } from '@/components/AboutUs/datas/division';
-import { KpiData } from '@/types';
+import { kpiMembers } from '@/components/AboutUs/datas/kpiMembers';
 
 interface KpiHistoryModalProps {
     isOpen: boolean;
     onClose: () => void;
     activeDivision: any;
-    kpiData: KpiData;
 }
 
-const calcAvgKpi = (memberData: KpiData[string] | undefined): number => {
-    if (!memberData?.history) return 0;
+// Helper: hitung rata-rata dari semua nilai history
+const calcAvgKpi = (memberData: (typeof kpiMembers)[keyof typeof kpiMembers] | undefined): number => {
+    if (!memberData) return 0;
     const values = Object.values(memberData.history);
     if (values.length === 0) return 0;
     return Math.floor(values.reduce((sum, v) => sum + v, 0) / values.length);
 };
 
-export default function KpiHistoryModal({ isOpen, onClose, activeDivision, kpiData }: KpiHistoryModalProps) {
+export default function KpiHistoryModal({ isOpen, onClose, activeDivision }: KpiHistoryModalProps) {
     if (!isOpen || !activeDivision) return null;
 
     const themeColor = getTitleColor(activeDivision.singkatan);
 
     const top3Overall = [...activeDivision.members]
-        .map((m: any) => ({
-            ...m,
-            overallScore: calcAvgKpi(kpiData[m.name]),
-        }))
+        .map((m: any) => {
+            const memberData = kpiMembers[m.name as keyof typeof kpiMembers];
+            return {
+                ...m,
+                overallScore: calcAvgKpi(memberData),
+            };
+        })
         .sort((a, b) => b.overallScore - a.overallScore)
         .slice(0, 3)
         .map((m, idx) => ({ ...m, rank: idx + 1 }));
@@ -44,15 +47,20 @@ export default function KpiHistoryModal({ isOpen, onClose, activeDivision, kpiDa
 
         return periods.map((periodName) => {
             const membersWithScore = activeDivision.members.map((m: any) => {
-                const memberData = kpiData[m.name];
-                const score = memberData?.history?.[periodName] ?? 0;
+                const memberData = kpiMembers[m.name as keyof typeof kpiMembers];
+                const score = memberData
+                    ? memberData.history[periodName as keyof typeof memberData.history]
+                    : 0;
                 return { ...m, avg: score };
             });
             const sortedMembers = membersWithScore
                 .sort((a: any, b: any) => b.avg - a.avg)
                 .map((m: any, idx: number) => ({ ...m, rank: idx + 1 }));
 
-            return { period: periodName, members: sortedMembers };
+            return {
+                period: periodName,
+                members: sortedMembers,
+            };
         });
     };
 

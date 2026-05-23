@@ -14,32 +14,6 @@ export type PageProps<
     };
 };
 
-export interface KpiPeriod {
-    id: number;
-    kpi_member_id: number;
-    period_name: string;
-    score: number;
-}
-
-export interface KpiMember {
-    id: number;
-    name: string;
-    division: string;
-    overall: number;
-    periods: KpiPeriod[];
-}
-
-export type KpiData = Record<string, { overall: number; history: Record<string, number> }>;
-
-export interface GalleryImage {
-    id: number;
-    image_path: string;
-    image_url: string;
-    title: string | null;
-    description: string | null;
-    order: number;
-}
-
 export interface CustomLink {
     id: number;
     slug: string;

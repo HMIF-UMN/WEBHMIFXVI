@@ -3,13 +3,8 @@ import AppLayout from '@/Layouts/AppLayout';
 import HeroAbout from '@/components/AboutUs/HeroAbout';
 import VisionMission from '@/components/AboutUs/VisionMission';
 import Division from '@/components/AboutUs/Division';
-import { KpiData } from '@/types';
 
-interface Props {
-    kpiData: KpiData;
-}
-
-export default function AboutUs({ kpiData }: Props) {
+export default function AboutUs() {
     return (
         <AppLayout>
             <Head title="About Us" />
@@ -19,7 +14,7 @@ export default function AboutUs({ kpiData }: Props) {
                 </div>
                 <HeroAbout />
                 <VisionMission />
-                <Division kpiData={kpiData} />
+                <Division />
             </main>
         </AppLayout>
     );
