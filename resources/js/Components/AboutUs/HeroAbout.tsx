@@ -45,6 +45,7 @@ export default function HeroAbout() {
                 </motion.h2>
             
                 <motion.h1 variants={itemVariants} className="text-[2.5rem] leading-[1.1] md:text-[5rem] md:leading-[1.05] font-bold text-white mb-6 md:mb-8 tracking-tight">
+                    {/* FIKS: Menggunakan bg-gradient-to-r agar terbaca di Tailwind v3 */}
                     By <span className="bg-gradient-to-r from-[#00A8E8] to-[#006796] bg-clip-text text-transparent">IF Students,</span><br />
                     For <span className="bg-gradient-to-r from-[#00A8E8] to-[#006796] bg-clip-text text-transparent">IF Students.</span>
                 </motion.h1>

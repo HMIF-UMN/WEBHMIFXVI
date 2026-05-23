@@ -10,6 +10,7 @@ interface KpiHistoryModalProps {
     activeDivision: any;
 }
 
+// Helper: hitung rata-rata dari semua nilai history
 const calcAvgKpi = (memberData: (typeof kpiMembers)[keyof typeof kpiMembers] | undefined): number => {
     if (!memberData) return 0;
     const values = Object.values(memberData.history);
