@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\AboutUs\AboutImageController;
 use App\Http\Controllers\Admin\AboutUs\DivisionMemberController;
 use App\Http\Controllers\Admin\AboutUs\WordinganController as AboutWordinganController;
+use App\Http\Controllers\Admin\AspirationSubmissionController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ContactSubmissionController;
 use App\Http\Controllers\Admin\CustomLinkController;
 use App\Http\Controllers\Admin\GalleryImageController;
@@ -48,7 +50,7 @@ Route::middleware('guest')->group(function () {
 
 // ── Authenticated routes ──────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', fn() => Inertia::render('Admin/Dashboard'))->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -69,6 +71,10 @@ Route::middleware('auth')->group(function () {
             Route::get('contact-submissions',                                  [ContactSubmissionController::class, 'index'])->name('contact-submissions.index');
             Route::patch('contact-submissions/{contactSubmission}/read',       [ContactSubmissionController::class, 'markRead'])->name('contact-submissions.read');
             Route::delete('contact-submissions/{contactSubmission}',           [ContactSubmissionController::class, 'destroy'])->name('contact-submissions.destroy');
+
+            Route::get('aspiration-submissions',                                     [AspirationSubmissionController::class, 'index'])->name('aspiration-submissions.index');
+            Route::patch('aspiration-submissions/{aspirationSubmission}/read',       [AspirationSubmissionController::class, 'markRead'])->name('aspiration-submissions.read');
+            Route::delete('aspiration-submissions/{aspirationSubmission}',           [AspirationSubmissionController::class, 'destroy'])->name('aspiration-submissions.destroy');
 
             Route::prefix('about-us')->name('about-us.')->group(function () {
                 Route::get('wordingan',   [AboutWordinganController::class, 'edit'])->name('wordingan.edit');

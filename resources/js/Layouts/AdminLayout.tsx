@@ -32,8 +32,9 @@ const adminNav: NavSection[] = [
     {
         title: 'Home',
         items: [
-            { label: 'Settings', href: route('admin.home.settings.edit'),           match: 'admin.home.*' },
-            { label: 'Contact',  href: route('admin.contact-submissions.index'),    match: 'admin.contact-submissions.*' },
+            { label: 'Settings',    href: route('admin.home.settings.edit'),              match: 'admin.home.*' },
+            { label: 'Contact',     href: route('admin.contact-submissions.index'),       match: 'admin.contact-submissions.*' },
+            { label: 'Aspiration',  href: route('admin.aspiration-submissions.index'),    match: 'admin.aspiration-submissions.*' },
         ],
     },
     {
