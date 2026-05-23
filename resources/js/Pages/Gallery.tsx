@@ -140,7 +140,7 @@ export default function Gallery({ photos }: Props) {
         return (
             <AppLayout>
                 <Head title="Gallery" />
-                <main className="relative flex-1 flex items-center justify-center bg-[#010511]" style={{ minHeight: 'calc(100vh - 80px)' }}>
+                <main className="relative flex items-center justify-center bg-[#010511]" style={{ height: '100vh' }}>
                     <p className="text-[#c2cad6]/50 text-sm" style={{ fontFamily: 'var(--font-work-sans)' }}>No photos yet.</p>
                 </main>
             </AppLayout>
@@ -150,7 +150,7 @@ export default function Gallery({ photos }: Props) {
     return (
         <AppLayout>
             <Head title="Gallery" />
-            <main className="relative flex-1 overflow-hidden bg-[#010511] select-none" style={{ minHeight: 'calc(100vh - 80px)' }}>
+            <main className="relative overflow-hidden bg-[#010511] select-none" style={{ height: '100vh' }}>
                 <div className="pointer-events-none absolute left-[10%] top-[20%] size-[600px] rounded-full bg-[#149ed8] opacity-20 blur-[180px]" />
                 <div className="pointer-events-none absolute right-[5%] bottom-[10%] size-[520px] rounded-full bg-[#005696] opacity-25 blur-[200px]" />
 
