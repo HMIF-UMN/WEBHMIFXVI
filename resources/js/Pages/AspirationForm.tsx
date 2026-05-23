@@ -1,13 +1,21 @@
-import { Head } from '@inertiajs/react';
-import { useState } from 'react';
+import { Head, useForm, router } from '@inertiajs/react';
+import { FormEventHandler, useState } from 'react';
 
 export default function AspirationForm() {
-    const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', message: '' });
     const [submitted, setSubmitted] = useState(false);
+    const { data, setData, post, processing, errors, reset } = useForm({
+        first_name: '',
+        last_name: '',
+        email: '',
+        message: '',
+    });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setFormData({ ...formData, [e.target.name]: e.target.value });
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setSubmitted(true); };
-    const handleBack = () => { setSubmitted(false); setFormData({ firstName: '', lastName: '', email: '', message: '' }); };
+    const handleSubmit: FormEventHandler = (e) => {
+        e.preventDefault();
+        post(route('aspirationForm.store'), { onSuccess: () => { reset(); setSubmitted(true); } });
+    };
+
+    const handleBack = () => router.visit('/');
 
     const inputStyle = { background: 'rgba(10, 20, 40, 0.4)', border: '1.5px solid rgba(0, 180, 255, 0.35)', backdropFilter: 'blur(12px)' };
     const inputClass = 'w-full rounded-full px-5 py-3 text-white text-base placeholder-[#7a9fc0] outline-none transition-all duration-300';
@@ -85,23 +93,29 @@ export default function AspirationForm() {
                         <div className="flex gap-5 flex-col sm:flex-row">
                             <div className="flex-1">
                                 <label className="block text-white text-base font-semibold mb-3">First Name</label>
-                                <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="Jane" className={inputClass} style={inputStyle} />
+                                <input type="text" value={data.first_name} onChange={(e) => setData('first_name', e.target.value)} placeholder="Jane" className={inputClass} style={inputStyle} />
+                                {errors.first_name && <p className="mt-1 text-xs text-red-400">{errors.first_name}</p>}
                             </div>
                             <div className="flex-1">
                                 <label className="block text-white text-base font-semibold mb-3">Last Name</label>
-                                <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Doe" className={inputClass} style={inputStyle} />
+                                <input type="text" value={data.last_name} onChange={(e) => setData('last_name', e.target.value)} placeholder="Doe" className={inputClass} style={inputStyle} />
+                                {errors.last_name && <p className="mt-1 text-xs text-red-400">{errors.last_name}</p>}
                             </div>
                         </div>
                         <div>
                             <label className="block text-white text-base font-semibold mb-3">Email</label>
-                            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="your@email.com" className={inputClass} style={inputStyle} />
+                            <input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} placeholder="your@email.com" className={inputClass} style={inputStyle} />
+                            {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
                         </div>
                         <div>
                             <label className="block text-white text-base font-semibold mb-3">Message</label>
-                            <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Leave us a message..." rows={5} className="w-full rounded-2xl px-5 py-3 text-white text-base placeholder-[#7a9fc0] outline-none transition-all duration-300 resize-none" style={inputStyle} />
+                            <textarea value={data.message} onChange={(e) => setData('message', e.target.value)} placeholder="Leave us a message..." rows={5} className="w-full rounded-2xl px-5 py-3 text-white text-base placeholder-[#7a9fc0] outline-none transition-all duration-300 resize-none" style={inputStyle} />
+                            {errors.message && <p className="mt-1 text-xs text-red-400">{errors.message}</p>}
                         </div>
                         <div className="pt-4">
-                            <button type="submit" className="px-8 py-3 rounded-full text-white text-base font-semibold transition-all duration-300 hover:scale-[1.03]" style={{ background: 'rgba(0, 180, 255, 0.15)', border: '1.5px solid rgba(0, 180, 255, 0.5)', backdropFilter: 'blur(10px)' }}>Send Now</button>
+                            <button type="submit" disabled={processing} className="px-8 py-3 rounded-full text-white text-base font-semibold transition-all duration-300 hover:scale-[1.03] disabled:opacity-50" style={{ background: 'rgba(0, 180, 255, 0.15)', border: '1.5px solid rgba(0, 180, 255, 0.5)', backdropFilter: 'blur(10px)' }}>
+                                {processing ? 'Sending...' : 'Send Now'}
+                            </button>
                         </div>
                     </form>
                 </div>
