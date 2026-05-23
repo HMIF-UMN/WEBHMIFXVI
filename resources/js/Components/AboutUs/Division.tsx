@@ -1,44 +1,44 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { aboutUsData } from '@/components/AboutUs/datas/aboutUsData';
 import { MaskImage, getTitleColor } from '@/components/AboutUs/datas/division';
-import { kpiMembers } from '@/components/AboutUs/datas/kpiMembers';
 import KpiHistoryModal from '@/components/AboutUs/KpiHistory';
+import { KpiData } from '@/types';
 
 const buttonImg = '/assets/AboutUs/assetDetailMembers/ButtonMore.svg';
 const instagram = '/assets/AboutUs/assetDetailMembers/instagram.svg';
 const linkedln = '/assets/AboutUs/assetDetailMembers/linkedln.svg';
 const github = '/assets/AboutUs/assetDetailMembers/github.svg';
 
-// Helper: rata-rata KPI seluruh anggota divisi (semua periode)
-const getDivisionAverageKpi = (members: any[]) => {
+const getDivisionAverageKpi = (members: any[], kpiData: KpiData): number => {
     let totalScore = 0;
     let totalDataCount = 0;
-
     members.forEach((m) => {
-        const memberData = kpiMembers[m.name as keyof typeof kpiMembers];
-        if (memberData && memberData.history) {
+        const memberData = kpiData[m.name];
+        if (memberData?.history) {
             const values = Object.values(memberData.history);
             totalScore += values.reduce((sum, v) => sum + v, 0);
             totalDataCount += values.length;
         }
     });
-
     return totalDataCount === 0 ? 0 : Math.floor(totalScore / totalDataCount);
 };
 
-// Helper: rata-rata KPI satu anggota (semua periode)
-const getMemberAverageKpi = (memberName: string): number => {
-    const memberData = kpiMembers[memberName as keyof typeof kpiMembers];
-    if (!memberData || !memberData.history) return 0;
+const getMemberAverageKpi = (memberName: string, kpiData: KpiData): number => {
+    const memberData = kpiData[memberName];
+    if (!memberData?.history) return 0;
     const values = Object.values(memberData.history);
     if (values.length === 0) return 0;
     return Math.floor(values.reduce((sum, v) => sum + v, 0) / values.length);
 };
 
-export default function DivisionSection() {
+interface Props {
+    kpiData: KpiData;
+}
+
+export default function DivisionSection({ kpiData }: Props) {
     const [activeIndex, setActiveIndex] = useState(3);
     const [showDetail, setShowDetail] = useState(false);
     const [activeMemberIndex, setActiveMemberIndex] = useState(0);
@@ -48,9 +48,8 @@ export default function DivisionSection() {
     const activeMember = activeDivision.members[activeMemberIndex];
     const hasMultipleMembers = activeDivision.members.length > 1;
 
-    // ✅ Sekarang dihitung sebagai rata-rata dari semua periode, bukan .overall
-    const activeMemberKpi = getMemberAverageKpi(activeMember.name);
-    const displayKpi = getDivisionAverageKpi(activeDivision.members);
+    const activeMemberKpi = getMemberAverageKpi(activeMember.name, kpiData);
+    const displayKpi = getDivisionAverageKpi(activeDivision.members, kpiData);
 
     const nextMember = () => {
         setActiveMemberIndex((prev) => (prev + 1) % activeDivision.members.length);
@@ -200,7 +199,6 @@ export default function DivisionSection() {
                         </motion.div>
 
                     ) : (
-                        // CAROUSEL
                         <motion.div
                             key="detail"
                             variants={contentVariants}
@@ -256,7 +254,7 @@ export default function DivisionSection() {
                                         <img src={MaskImage(activeDivision.singkatan)} alt="Mask" className="absolute inset-0 w-full h-full object-contain" />
                                     </div>
 
-                                    {/* KPI — rata-rata member aktif */}
+                                    {/* KPI */}
                                     <div className="absolute -right-12 -bottom-4 md:-right-24 md:-bottom-6 z-20 text-right">
                                         <h2 className="font-['Kanit'] font-bold text-5xl md:text-7xl text-white leading-none drop-shadow-lg">
                                             {(activeMemberKpi > 0 ? activeMemberKpi : displayKpi).toLocaleString('id-ID')}
@@ -359,6 +357,7 @@ export default function DivisionSection() {
                 isOpen={isHistoryModalOpen}
                 onClose={() => setIsHistoryModalOpen(false)}
                 activeDivision={activeDivision}
+                kpiData={kpiData}
             />
 
         </section>
