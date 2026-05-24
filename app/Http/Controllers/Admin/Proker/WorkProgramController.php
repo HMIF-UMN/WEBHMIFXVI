@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\WorkProgram;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Inertia\Response;
 
 class WorkProgramController extends Controller
@@ -14,6 +13,9 @@ class WorkProgramController extends Controller
     public function index(): Response
     {
         // TODO: return paginated work programs ordered by order column
+        return Inertia::render('Admin/Proker/Inertia', [
+            'work_programs' => WorkProgram::orderBy('order')->get(),
+        ]);
     }
 
     public function create(): Response

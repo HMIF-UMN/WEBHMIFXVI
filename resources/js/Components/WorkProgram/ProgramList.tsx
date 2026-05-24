@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import ProgramCard from './ProgramCard';
 import proker from '@/data/proker';
+import { WorkProgram } from '@/types';
 
-export default function ProgramLists() {
+export default function ProgramLists({ work_programs }: { work_programs: WorkProgram[] }) {
     return (
         <section id="program-list" className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="mb-12 text-center">

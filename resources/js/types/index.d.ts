@@ -65,3 +65,12 @@ export interface PaginatedData<T> {
     to: number | null;
     links: PaginationLink[];
 }
+
+export interface WorkProgram {
+    title: string;
+    subtitle: string;
+    description: string;
+    logo_path: string;
+    date: string;
+    order: number;
+}
