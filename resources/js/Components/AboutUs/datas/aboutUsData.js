@@ -58,10 +58,12 @@ export const aboutUsData = [
                 name: "Fellix Fernando Williams Lim",
                 image: felix,
                 position: "Koordinator",
-                quote: "",
-                instagram: "",
-                github: "",
-                linkedin: "",
+                quote: "All In Moderation.",
+                instagram:
+                    "https://www.instagram.com/fell_fernando?igsh=MXVwajNwendmOHpxMw%3D%3D&utm_source=qr",
+                github: "https://github.com/FellixFernando",
+                linkedin:
+                    "https://www.linkedin.com/in/fellix-fernando-95a0b925b?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
             },
             {
                 name: "Mikael Geraldius Gunawan",
@@ -97,10 +99,11 @@ export const aboutUsData = [
                 name: "Clemens Putra Kusmeri",
                 image: clemens,
                 position: "Project & Events",
-                quote: "",
-                instagram: "",
-                github: "",
-                linkedin: "",
+                quote: "DOO BEE DOO BEE DOOO - Shaggy",
+                instagram: "https://www.instagram.com/colonized.bread/",
+                github: "https://www.instagram.com/colonized.bread/	https://github.com/not-Baguette",
+                linkedin:
+                    "https://www.linkedin.com/in/clemens-putra-667b35324/",
             },
             {
                 name: "Muhammad Farras Mu'tashim",
@@ -445,10 +448,10 @@ export const aboutUsData = [
                 name: "Ardifa Rizky Saputra",
                 image: ardifa,
                 position: "Vice President",
-                quote: "",
-                instagram: "",
-                github: "",
-                linkedin: "",
+                quote: "Tiga",
+                instagram: "https://www.instagram.com/rizkyardifa",
+                github: "https://www.github.com/ardifarizky",
+                linkedin: "https://www.linkedin.com/in/ardifarizky",
             },
             {
                 name: "Victor Chandra",

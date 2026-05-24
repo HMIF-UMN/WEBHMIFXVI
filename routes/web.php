@@ -32,7 +32,7 @@ Route::get('/information',             fn() => Inertia::render('Information'))->
 Route::get('/information/detail/{id}', fn(int $id) => Inertia::render('InformationDetail', ['id' => $id]))->name('information.detail');
 Route::get('/aspirationForm',          fn() => Inertia::render('AspirationForm'))->name('aspirationForm');
 Route::post('/aspirationForm',         [AspirationController::class, 'store'])->name('aspirationForm.store');
-Route::get('/linkPage',                fn() => Inertia::render('LinkPage'))->name('linkPage');
+Route::get('/profile',                fn() => Inertia::render('LinkPage'))->name('linkPage');
 
 // ── Event short-links ─────────────────────────────────────────────────────────
 Route::redirect('/inforta', 'https://infortaumn.my.id', 301);
@@ -40,7 +40,7 @@ Route::redirect('/ppif',    'https://ppif.umn.ac.id',   301);
 Route::redirect('/byte',    'https://byteumn.com',      301);
 
 // ── Auth routes ───────────────────────────────────────────────────────────────
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 // ── Custom admin login entry point ────────────────────────────────────────────
 Route::middleware('guest')->group(function () {

@@ -1,13 +1,13 @@
-import { Link, usePage } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { Link, usePage } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 
 const navItems = [
-    { label: 'Home', href: '/' },
-    { label: 'About Us', href: '/aboutUs' },
-    { label: 'Work Program', href: '/workProgram' },
-    { label: 'Gallery', href: '/gallery' },
-    { label: 'Information', href: '/information' },
-    { label: "IF's Website", href: '/linkPage' },
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/aboutUs" },
+    { label: "Work Program", href: "/workProgram" },
+    { label: "Gallery", href: "/gallery" },
+    { label: "Information", href: "/information" },
+    { label: "IF's Website", href: "https://inf.umn.ac.id" },
 ];
 
 export default function Navbar() {
@@ -27,44 +27,80 @@ export default function Navbar() {
                 <div
                     className="pointer-events-none absolute inset-0 rounded-[2rem] p-px bg-gradient-to-b from-white/30 to-[#005696]/80"
                     style={{
-                        WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                        WebkitMaskComposite: 'xor',
-                        maskComposite: 'exclude',
+                        WebkitMask:
+                            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                        WebkitMaskComposite: "xor",
+                        maskComposite: "exclude",
                     }}
                 />
 
-                <Link href="/" className="relative flex items-center gap-3 text-white">
-                    <img src="/assets/LogoHMIF.svg" alt="HMIF UMN logo" width={36} height={36} />
+                <Link
+                    href="/"
+                    className="relative flex items-center gap-3 text-white"
+                >
+                    <img
+                        src="/assets/LogoHMIF.svg"
+                        alt="HMIF UMN logo"
+                        width={36}
+                        height={36}
+                    />
                     <span className="font-kanit text-lg tracking-wide">
                         <span className="font-bold">HMIF</span>
-                        <span className="ml-1 font-light text-white/80">UMN</span>
+                        <span className="ml-1 font-light text-white/80">
+                            UMN
+                        </span>
                     </span>
                 </Link>
 
                 <button
-                    aria-label={navbarOpen ? 'Close menu' : 'Open menu'}
+                    aria-label={navbarOpen ? "Close menu" : "Open menu"}
                     onClick={() => setNavbarOpen((s) => !s)}
                     className="relative z-10 ml-4 p-2 text-white md:hidden"
                 >
                     {navbarOpen ? (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <path d="M6 6L18 18M6 18L18 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                        >
+                            <path
+                                d="M6 6L18 18M6 18L18 6"
+                                stroke="white"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
                         </svg>
                     ) : (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <path d="M3 6h18M3 12h18M3 18h18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                        >
+                            <path
+                                d="M3 6h18M3 12h18M3 18h18"
+                                stroke="white"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
                         </svg>
                     )}
                 </button>
 
                 <ul className="relative hidden items-center gap-10 md:flex">
                     {navItems.map((item) => {
-                        const isActive = item.href === '/' ? url === '/' : url.startsWith(item.href);
+                        const isActive =
+                            item.href === "/"
+                                ? url === "/"
+                                : url.startsWith(item.href);
                         return (
                             <li key={item.href}>
                                 <Link
                                     href={item.href}
-                                    className={`text-sm transition-colors hover:text-white ${isActive ? 'text-white' : 'text-white/70'}`}
+                                    className={`text-sm transition-colors hover:text-white ${isActive ? "text-white" : "text-white/70"}`}
                                 >
                                     {item.label}
                                 </Link>
@@ -78,19 +114,23 @@ export default function Navbar() {
                         <div
                             className="pointer-events-none absolute inset-0 rounded-3xl p-px bg-gradient-to-b from-white/30 to-[#005696]/80"
                             style={{
-                                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                                WebkitMaskComposite: 'xor',
-                                maskComposite: 'exclude',
+                                WebkitMask:
+                                    "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                                WebkitMaskComposite: "xor",
+                                maskComposite: "exclude",
                             }}
                         />
                         <ul className="flex flex-col gap-6">
                             {navItems.map((item) => {
-                                const isActive = item.href === '/' ? url === '/' : url.startsWith(item.href);
+                                const isActive =
+                                    item.href === "/"
+                                        ? url === "/"
+                                        : url.startsWith(item.href);
                                 return (
                                     <li key={item.href}>
                                         <Link
                                             href={item.href}
-                                            className={`block text-base transition-colors hover:text-white ${isActive ? 'text-white font-bold' : 'text-white/70'}`}
+                                            className={`block text-base transition-colors hover:text-white ${isActive ? "text-white font-bold" : "text-white/70"}`}
                                         >
                                             {item.label}
                                         </Link>
