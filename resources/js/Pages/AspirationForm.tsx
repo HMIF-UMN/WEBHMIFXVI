@@ -3,6 +3,7 @@ import { FormEventHandler, useState } from 'react';
 
 export default function AspirationForm() {
     const [submitted, setSubmitted] = useState(false);
+    const [clientErrors, setClientErrors] = useState<Record<string, string>>({});
     const { data, setData, post, processing, errors, reset } = useForm({
         first_name: '',
         last_name: '',
@@ -10,8 +11,22 @@ export default function AspirationForm() {
         message: '',
     });
 
+    const validate = () => {
+        const errs: Record<string, string> = {};
+        if (!data.first_name.trim()) errs.first_name = 'First name is required.';
+        if (!data.email.trim()) errs.email = 'Email is required.';
+        if (!data.message.trim()) errs.message = 'Message is required.';
+        return errs;
+    };
+
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
+        const errs = validate();
+        if (Object.keys(errs).length > 0) {
+            setClientErrors(errs);
+            return;
+        }
+        setClientErrors({});
         post(route('aspirationForm.store'), { onSuccess: () => { reset(); setSubmitted(true); } });
     };
 
@@ -94,7 +109,7 @@ export default function AspirationForm() {
                             <div className="flex-1">
                                 <label className="block text-white text-base font-semibold mb-3">First Name</label>
                                 <input type="text" value={data.first_name} onChange={(e) => setData('first_name', e.target.value)} placeholder="Jane" className={inputClass} style={inputStyle} />
-                                {errors.first_name && <p className="mt-1 text-xs text-red-400">{errors.first_name}</p>}
+                                {(errors.first_name || clientErrors.first_name) && <p className="mt-1 text-xs text-red-400">{errors.first_name || clientErrors.first_name}</p>}
                             </div>
                             <div className="flex-1">
                                 <label className="block text-white text-base font-semibold mb-3">Last Name</label>
@@ -105,12 +120,12 @@ export default function AspirationForm() {
                         <div>
                             <label className="block text-white text-base font-semibold mb-3">Email</label>
                             <input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} placeholder="your@email.com" className={inputClass} style={inputStyle} />
-                            {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
+                            {(errors.email || clientErrors.email) && <p className="mt-1 text-xs text-red-400">{errors.email || clientErrors.email}</p>}
                         </div>
                         <div>
                             <label className="block text-white text-base font-semibold mb-3">Message</label>
                             <textarea value={data.message} onChange={(e) => setData('message', e.target.value)} placeholder="Leave us a message..." rows={5} className="w-full rounded-2xl px-5 py-3 text-white text-base placeholder-[#7a9fc0] outline-none transition-all duration-300 resize-none" style={inputStyle} />
-                            {errors.message && <p className="mt-1 text-xs text-red-400">{errors.message}</p>}
+                            {(errors.message || clientErrors.message) && <p className="mt-1 text-xs text-red-400">{errors.message || clientErrors.message}</p>}
                         </div>
                         <div className="pt-4">
                             <button type="submit" disabled={processing} className="px-8 py-3 rounded-full text-white text-base font-semibold transition-all duration-300 hover:scale-[1.03] disabled:opacity-50" style={{ background: 'rgba(0, 180, 255, 0.15)', border: '1.5px solid rgba(0, 180, 255, 0.5)', backdropFilter: 'blur(10px)' }}>
