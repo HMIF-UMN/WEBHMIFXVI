@@ -74,7 +74,15 @@ export default function Navbar() {
                 </ul>
 
                 {navbarOpen && (
-                    <div className="absolute left-0 top-[calc(100%+16px)] w-full rounded-3xl bg-[#010511]/90 p-6 shadow-2xl backdrop-blur-xl md:hidden border border-white/10">
+                    <div className="absolute left-0 top-[calc(100%+16px)] w-full rounded-3xl bg-[#3C404A]/40 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl backdrop-saturate-150 md:hidden">
+                        <div
+                            className="pointer-events-none absolute inset-0 rounded-3xl p-px bg-gradient-to-b from-white/30 to-[#005696]/80"
+                            style={{
+                                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                                WebkitMaskComposite: 'xor',
+                                maskComposite: 'exclude',
+                            }}
+                        />
                         <ul className="flex flex-col gap-6">
                             {navItems.map((item) => {
                                 const isActive = item.href === '/' ? url === '/' : url.startsWith(item.href);
