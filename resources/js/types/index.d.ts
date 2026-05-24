@@ -67,10 +67,12 @@ export interface PaginatedData<T> {
 }
 
 export interface WorkProgram {
+    id: number;
     title: string;
     subtitle: string;
     description: string;
     logo_path: string;
-    date: string;
-    order: number;
+    date_start: string;
+    date_end: string;
+    image_paths: string[];
 }

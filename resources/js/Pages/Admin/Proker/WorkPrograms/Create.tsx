@@ -1,9 +1,7 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link } from '@inertiajs/react';
-import type { WorkProgram } from '@/types';
 
-// TODO: receive workPrograms: PaginatedData<WorkProgram> from controller
-export default function Index({ work_programs }: { work_programs: WorkProgram[] }) {
+export default function Index() {
     return (
         <AdminLayout>
             <Head title="Work Programs" />
