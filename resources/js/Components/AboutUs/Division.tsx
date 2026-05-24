@@ -119,9 +119,9 @@ export default function DivisionSection({ kpiData }: Props) {
                 transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
             >
                 {activeDivision.image && (
-                    <img src={activeDivision.image} alt={activeDivision.name} className="absolute inset-0 w-full h-full object-cover object-right grayscale mix-blend-luminosity" />
+                    <img src={activeDivision.image} alt={activeDivision.name} className="absolute inset-0 w-full h-full object-cover object-center md:object-right grayscale mix-blend-luminosity" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#060C17] via-[#060C17]/95 to-[#060C17]/10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#060C17] via-[#060C17]/70 to-[#060C17]/10" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#060C17] via-transparent to-transparent" />
             </motion.div>
 

@@ -44,7 +44,7 @@ class KpiMemberSeeder extends Seeder
             // Human Resource
             ['Vijie Annisa Dzatil Izzah',        'Human Resource',         ['Periode Week 1-4' =>  627, 'Periode Week 5-8' =>  948, 'Periode Week 9-12' => 1018]],
             // Public Relation
-            ['Paulus Vincent Andresson',         'Public Relation',        ['Periode Week 1-4' => 1021, 'Periode Week 5-8' =>  800, 'Periode Week 9-12' => 1014]],
+            ['Vincent Andresson',                'Public Relation',        ['Periode Week 1-4' => 1021, 'Periode Week 5-8' =>  800, 'Periode Week 9-12' => 1014]],
             ['Jesslyn Claresta Sanders',         'Public Relation',        ['Periode Week 1-4' => 1015, 'Periode Week 5-8' => 1003, 'Periode Week 9-12' => 1013]],
             ['Christian Valentino',              'Public Relation',        ['Periode Week 1-4' =>  980, 'Periode Week 5-8' =>  988, 'Periode Week 9-12' => 1024]],
             ['Nadine Angeline',                  'Public Relation',        ['Periode Week 1-4' =>  962, 'Periode Week 5-8' =>  977, 'Periode Week 9-12' =>  967]],

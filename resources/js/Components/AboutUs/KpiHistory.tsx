@@ -78,7 +78,7 @@ export default function KpiHistoryModal({ isOpen, onClose, activeDivision, kpiDa
                             <img
                                 src={activeDivision.image}
                                 alt={`${activeDivision.name} Background`}
-                                className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity"
+                                className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale mix-blend-luminosity"
                             />
                         )}
                         <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/30 via-[#070D18]/95 to-[#03060C]" />
@@ -169,8 +169,9 @@ export default function KpiHistoryModal({ isOpen, onClose, activeDivision, kpiDa
                             >
                                 {historyData.map((data, index) => (
                                     <div key={index} className="flex flex-col">
-                                        <div className="flex items-center gap-3 md:gap-4 mb-4 sticky top-0 bg-[#070D18]/95 backdrop-blur-md rounded-full z-30 py-2 -mx-2 px-2">
-                                            <div className="border border-[#1A2333] rounded-lg px-4 md:px-5 py-1.5 md:py-2 bg-[#0B1524]">
+                                        
+                                        <div className="flex items-center gap-3 md:gap-4 mb-4 sticky top-0 bg-[#070D18]/95 backdrop-blur-md z-30 py-2 -mx-2 px-2">
+                                            <div className="border border-[#1A2333] px-4 md:px-5 py-1.5 md:py-2 bg-[#0B1524]">
                                                 <h3 className="text-white font-semibold font-['Kanit'] text-xs md:text-sm whitespace-nowrap">
                                                     {data.period}
                                                 </h3>
