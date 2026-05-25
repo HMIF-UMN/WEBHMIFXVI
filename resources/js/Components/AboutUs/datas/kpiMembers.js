@@ -1,8 +1,8 @@
 // TOTAL KPI
 export const divisionKpi = {
     "Project Manager": 1025,
-    "Creative": 12000,
-    "Finance": 927,
+    Creative: 12000,
+    Finance: 927,
     "Research and Development": 962,
     "Human Resource": 1018,
     "Public Relation": 1010,
@@ -224,7 +224,7 @@ export const kpiMembers = {
             "Periode Week 9-12": 1023,
         },
     },
-    "Vincent": {
+    Vincent: {
         overall: 3053,
         history: {
             "Periode Week 1-4": 1034,

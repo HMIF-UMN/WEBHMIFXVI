@@ -1,13 +1,36 @@
-import { Head } from '@inertiajs/react';
-import { useState } from 'react';
+import { Head, useForm, router } from '@inertiajs/react';
+import { FormEventHandler, useState } from 'react';
 
 export default function AspirationForm() {
-    const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', message: '' });
     const [submitted, setSubmitted] = useState(false);
+    const [clientErrors, setClientErrors] = useState<Record<string, string>>({});
+    const { data, setData, post, processing, errors, reset } = useForm({
+        first_name: '',
+        last_name: '',
+        email: '',
+        message: '',
+    });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setFormData({ ...formData, [e.target.name]: e.target.value });
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setSubmitted(true); };
-    const handleBack = () => { setSubmitted(false); setFormData({ firstName: '', lastName: '', email: '', message: '' }); };
+    const validate = () => {
+        const errs: Record<string, string> = {};
+        if (!data.first_name.trim()) errs.first_name = 'First name is required.';
+        if (!data.email.trim()) errs.email = 'Email is required.';
+        if (!data.message.trim()) errs.message = 'Message is required.';
+        return errs;
+    };
+
+    const handleSubmit: FormEventHandler = (e) => {
+        e.preventDefault();
+        const errs = validate();
+        if (Object.keys(errs).length > 0) {
+            setClientErrors(errs);
+            return;
+        }
+        setClientErrors({});
+        post(route('aspirationForm.store'), { onSuccess: () => { reset(); setSubmitted(true); } });
+    };
+
+    const handleBack = () => router.visit('/');
 
     const inputStyle = { background: 'rgba(10, 20, 40, 0.4)', border: '1.5px solid rgba(0, 180, 255, 0.35)', backdropFilter: 'blur(12px)' };
     const inputClass = 'w-full rounded-full px-5 py-3 text-white text-base placeholder-[#7a9fc0] outline-none transition-all duration-300';
@@ -27,7 +50,13 @@ export default function AspirationForm() {
             <main className="min-h-screen w-full relative overflow-hidden flex items-center justify-center" style={mainStyle}>
                 <Head title="Thank You" />
                 <img src="/assets/Aspiration/Mask group.svg" alt="" className="absolute right-0 bottom-0 pointer-events-none hidden lg:block" />
-                <img src="/assets/Aspiration/Mask group (1).svg" alt="" className="absolute -left-15 -top-50 opacity-50 lg:opacity-100" />
+                <img src="/assets/Aspiration/Mask group (1).svg" alt="" className="absolute -left-15 -top-60 opacity-50 lg:opacity-100" />
+                <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                        background: `radial-gradient(ellipse 530px 450px at 50% 45%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 20%, rgba(0, 0, 0, 0.15) 35%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0.61) 100%)`,
+                    }}
+                />
                 <div className="relative z-10 w-full h-screen flex flex-col items-center justify-center px-6 text-center">
                     <div className="mb-8 lg:mb-12"><img src="/assets/Aspiration/Full.svg" alt="HMIF UMN Logo" width={140} height={120} /></div>
                     <h1 className="font-kanit text-5xl lg:text-8xl font-bold text-white leading-tight tracking-tight">Thank You For</h1>
@@ -47,12 +76,20 @@ export default function AspirationForm() {
         <main className="min-h-screen w-full relative overflow-hidden flex items-center justify-center" style={mainStyle}>
             <Head title="Aspiration Form" />
             <img src="/assets/Aspiration/Mask group.svg" alt="" className="absolute right-0 bottom-0 pointer-events-none hidden lg:block" />
+            <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                background: `radial-gradient(ellipse 520px 365px at 25% 50%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.15) 20%, rgba(0, 0, 0, 0.15) 35%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0.65) 100%)`,
+                }}
+            />
             <div className="relative z-10 w-full max-w-[1500px] mx-auto px-6 py-10 lg:py-16 flex flex-col lg:flex-row lg:items-start lg:gap-24">
                 <div className="flex-1 mb-10 lg:mb-0">
                     <div className="mb-12 lg:mb-38"><img src="/assets/Aspiration/Full.svg" alt="HMIF UMN Logo" width={140} height={120} /></div>
                     <div className="mb-16 lg:mt-12">
                         <h1 className="font-kanit text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight mb-5">Give Your<br /><span className="font-kanit font-bold lg:text-8xl">Aspiration!</span></h1>
-                        <p className="text-[#7ba5c7] text-base leading-relaxed" style={{ fontFamily: 'var(--font-work-sans)' }}>Share your ideas, hopes, and aspirations with us. Your voice can inspire change.</p>
+                        <p className="text-[#7ba5c7] text-base leading-relaxed" style={{ fontFamily: 'var(--font-work-sans)' }}>Share your ideas, hopes, and aspirations with us through this page.
+                        Your voice can inspire change and help create a better experience
+                        for everyone.</p>
                     </div>
                     <div className="flex gap-3">
                         {socialLinks.map((s) => (
@@ -71,23 +108,29 @@ export default function AspirationForm() {
                         <div className="flex gap-5 flex-col sm:flex-row">
                             <div className="flex-1">
                                 <label className="block text-white text-base font-semibold mb-3">First Name</label>
-                                <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="Jane" className={inputClass} style={inputStyle} />
+                                <input type="text" value={data.first_name} onChange={(e) => setData('first_name', e.target.value)} placeholder="Jane" className={inputClass} style={inputStyle} />
+                                {(errors.first_name || clientErrors.first_name) && <p className="mt-1 text-xs text-red-400">{errors.first_name || clientErrors.first_name}</p>}
                             </div>
                             <div className="flex-1">
                                 <label className="block text-white text-base font-semibold mb-3">Last Name</label>
-                                <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Doe" className={inputClass} style={inputStyle} />
+                                <input type="text" value={data.last_name} onChange={(e) => setData('last_name', e.target.value)} placeholder="Doe" className={inputClass} style={inputStyle} />
+                                {errors.last_name && <p className="mt-1 text-xs text-red-400">{errors.last_name}</p>}
                             </div>
                         </div>
                         <div>
                             <label className="block text-white text-base font-semibold mb-3">Email</label>
-                            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="your@email.com" className={inputClass} style={inputStyle} />
+                            <input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} placeholder="your@email.com" className={inputClass} style={inputStyle} />
+                            {(errors.email || clientErrors.email) && <p className="mt-1 text-xs text-red-400">{errors.email || clientErrors.email}</p>}
                         </div>
                         <div>
                             <label className="block text-white text-base font-semibold mb-3">Message</label>
-                            <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Leave us a message..." rows={5} className="w-full rounded-2xl px-5 py-3 text-white text-base placeholder-[#7a9fc0] outline-none transition-all duration-300 resize-none" style={inputStyle} />
+                            <textarea value={data.message} onChange={(e) => setData('message', e.target.value)} placeholder="Leave us a message..." rows={5} className="w-full rounded-2xl px-5 py-3 text-white text-base placeholder-[#7a9fc0] outline-none transition-all duration-300 resize-none" style={inputStyle} />
+                            {(errors.message || clientErrors.message) && <p className="mt-1 text-xs text-red-400">{errors.message || clientErrors.message}</p>}
                         </div>
                         <div className="pt-4">
-                            <button type="submit" className="px-8 py-3 rounded-full text-white text-base font-semibold transition-all duration-300 hover:scale-[1.03]" style={{ background: 'rgba(0, 180, 255, 0.15)', border: '1.5px solid rgba(0, 180, 255, 0.5)', backdropFilter: 'blur(10px)' }}>Send Now</button>
+                            <button type="submit" disabled={processing} className="px-8 py-3 rounded-full text-white text-base font-semibold transition-all duration-300 hover:scale-[1.03] disabled:opacity-50" style={{ background: 'rgba(0, 180, 255, 0.15)', border: '1.5px solid rgba(0, 180, 255, 0.5)', backdropFilter: 'blur(10px)' }}>
+                                {processing ? 'Sending...' : 'Send Now'}
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -30,7 +30,7 @@ class KpiMemberSeeder extends Seeder
             // Finance
             ['Rafael Romelo Gibran',             'Finance',                ['Periode Week 1-4' => 1008, 'Periode Week 5-8' =>  909, 'Periode Week 9-12' =>  779]],
             ['Rorensia Verisca',                 'Finance',                ['Periode Week 1-4' => 1003, 'Periode Week 5-8' => 1002, 'Periode Week 9-12' => 1058]],
-            ['Shalomita Amanda Christy Lasamahu','Finance',                ['Periode Week 1-4' =>  670, 'Periode Week 5-8' =>  949, 'Periode Week 9-12' => 1068]],
+            ['Shalomita Amanda Christy Lasamahu', 'Finance',                ['Periode Week 1-4' =>  670, 'Periode Week 5-8' =>  949, 'Periode Week 9-12' => 1068]],
             ['Ritz Kevin',                       'Finance',                ['Periode Week 1-4' =>  993, 'Periode Week 5-8' =>  994, 'Periode Week 9-12' => 1036]],
             ['Roane Adzani Sukmayadi Jaya',      'Finance',                ['Periode Week 1-4' => 1003, 'Periode Week 5-8' =>  879, 'Periode Week 9-12' =>  702]],
             ['Lexion Rafael',                    'Finance',                ['Periode Week 1-4' => 1000, 'Periode Week 5-8' => 1011, 'Periode Week 9-12' =>  921]],

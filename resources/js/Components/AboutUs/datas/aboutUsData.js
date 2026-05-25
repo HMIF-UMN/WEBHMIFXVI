@@ -59,9 +59,11 @@ export const aboutUsData = [
                 image: felix,
                 position: "Koordinator",
                 quote: "All In Moderation.",
-                instagram: "https://www.instagram.com/fell_fernando?igsh=MXVwajNwendmOHpxMw%3D%3D&utm_source=qr",
+                instagram:
+                    "https://www.instagram.com/fell_fernando?igsh=MXVwajNwendmOHpxMw%3D%3D&utm_source=qr",
                 github: "https://github.com/FellixFernando",
-                linkedin: "https://www.linkedin.com/in/fellix-fernando-95a0b925b?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+                linkedin:
+                    "https://www.linkedin.com/in/fellix-fernando-95a0b925b?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
             },
             {
                 name: "Mikael Geraldius Gunawan",
@@ -100,7 +102,8 @@ export const aboutUsData = [
                 quote: "DOO BEE DOO BEE DOOO - Shaggy",
                 instagram: "https://www.instagram.com/colonized.bread/",
                 github: "https://www.instagram.com/colonized.bread/	https://github.com/not-Baguette",
-                linkedin: "https://www.linkedin.com/in/clemens-putra-667b35324/",
+                linkedin:
+                    "https://www.linkedin.com/in/clemens-putra-667b35324/",
             },
             {
                 name: "Muhammad Farras Mu'tashim",
