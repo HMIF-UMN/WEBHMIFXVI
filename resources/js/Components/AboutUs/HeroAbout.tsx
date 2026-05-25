@@ -28,11 +28,12 @@ export default function HeroAbout() {
                 muted
                 loop
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover opacity-10 z-0 pointer-events-none"
+                className="absolute inset-0 w-full h-full object-cover opacity-5 z-0 pointer-events-none"
             >
                 <source src="/assets/AboutUs/Top/BackgroundVid.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
+            
 
             <motion.div 
                 className="relative z-10 flex flex-col mt-16 items-center justify-center px-8 text-center w-full max-w-4xl mx-auto"

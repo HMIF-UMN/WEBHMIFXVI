@@ -110,11 +110,9 @@ export const aboutUsData = [
                 image: farras,
                 position: "Project & Events",
                 quote: "Man I'm The Greatest",
-                instagram:
-                    "https://www.instagram.com/mfarrasm12?igsh=bTR6eTlhd3RzMHc3",
+                instagram: "https://www.instagram.com/mfarrasm12?igsh=bTR6eTlhd3RzMHc3",
                 github: "https://github.com/mfarrasm12",
-                linkedin:
-                    "https://www.linkedin.com/in/muhammad-farras-mu-tashim-0baa2037b?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+                linkedin:"https://www.linkedin.com/in/muhammad-farras-mu-tashim-0baa2037b?utm_source=share_via&utm_content=profile&utm_medium=member_android",
             },
             {
                 name: "Jonah Matthew Santoso",

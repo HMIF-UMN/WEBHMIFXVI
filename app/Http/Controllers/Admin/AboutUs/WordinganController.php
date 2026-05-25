@@ -13,11 +13,22 @@ class WordinganController extends Controller
 {
     public function edit(): Response
     {
-        // TODO: return edit form with current value of site_content key 'about_wordingan'
+        $content = SiteContent::get('about_wordingan', '');
+        
+        return Inertia::render('Admin/AboutUs/Wordingan', [
+            'content' => $content,
+        ]);
     }
 
     public function update(Request $request): RedirectResponse
     {
-        // TODO: validate and call SiteContent::set('about_wordingan', $request->value)
+        $validated = $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        SiteContent::set('about_wordingan', $validated['content']);
+
+        return redirect()->route('admin.about-us.wordingan.edit')
+            ->with('success', 'Wordingan updated successfully');
     }
 }
