@@ -9,4 +9,9 @@ class WorkProgram extends Model
     protected $fillable = ['title', 'subtitle', 'description', 'logo_path', 'date_start', 'date_end'];
 
     protected $casts = ['date_start' => 'date', 'date_end' => 'date'];
+
+    public function images()
+    {
+        return $this->hasMany(WorkProgramImages::class, 'work_program_id');
+    }
 }
