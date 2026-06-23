@@ -28,9 +28,9 @@ class UserSeeder extends Seeder
 
         // Master account
         User::create([
-            'name'     => '',
-            'email'    => '',
-            'password' => Hash::make(''),
+            'name'     => 'master',
+            'email'    => 'master@hmif.umn.ac.id',
+            'password' => Hash::make('Masterjaya123@'),
             'role'     => 'master',
         ]);
     }

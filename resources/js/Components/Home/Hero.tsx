@@ -27,10 +27,10 @@ export default function HeroSection({ heroImage }: { heroImage?: string | null }
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/55 to-[#010511]" />
             </div>
 
-            <div className="absolute bottom-24 lg:bottom-32 right-0 z-10 pointer-events-none w-[clamp(300px,42vw,810px)]">
+            <div className="hidden lg:block absolute bottom-32 right-0 z-10 pointer-events-none w-[clamp(300px,42vw,810px)]">
                 <img src="/assets/Home/supergraphics1.svg" alt="" aria-hidden className="w-full h-auto" />
             </div>
-            <div className="absolute bottom-24 lg:bottom-32 left-0 z-10 pointer-events-none w-[clamp(40px,5.5vw,106px)]">
+            <div className="hidden lg:block absolute bottom-32 left-0 z-10 pointer-events-none w-[clamp(40px,5.5vw,106px)]">
                 <img src="/assets/Home/supergraphics2.svg" alt="" aria-hidden className="w-full h-auto" />
             </div>
 

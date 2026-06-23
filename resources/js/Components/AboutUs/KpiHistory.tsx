@@ -1,36 +1,33 @@
-﻿"use client";
+"use client";
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { getTitleColor } from '@/components/AboutUs/datas/division';
-import { kpiMembers } from '@/components/AboutUs/datas/kpiMembers';
+import { KpiData } from '@/types';
 
 interface KpiHistoryModalProps {
     isOpen: boolean;
     onClose: () => void;
     activeDivision: any;
+    kpiData: KpiData;
 }
 
-// Helper: hitung rata-rata dari semua nilai history
-const calcAvgKpi = (memberData: (typeof kpiMembers)[keyof typeof kpiMembers] | undefined): number => {
-    if (!memberData) return 0;
+const calcAvgKpi = (memberData: KpiData[string] | undefined): number => {
+    if (!memberData?.history) return 0;
     const values = Object.values(memberData.history);
     if (values.length === 0) return 0;
     return Math.floor(values.reduce((sum, v) => sum + v, 0) / values.length);
 };
 
-export default function KpiHistoryModal({ isOpen, onClose, activeDivision }: KpiHistoryModalProps) {
+export default function KpiHistoryModal({ isOpen, onClose, activeDivision, kpiData }: KpiHistoryModalProps) {
     if (!isOpen || !activeDivision) return null;
 
     const themeColor = getTitleColor(activeDivision.singkatan);
 
     const top3Overall = [...activeDivision.members]
-        .map((m: any) => {
-            const memberData = kpiMembers[m.name as keyof typeof kpiMembers];
-            return {
-                ...m,
-                overallScore: calcAvgKpi(memberData),
-            };
-        })
+        .map((m: any) => ({
+            ...m,
+            overallScore: calcAvgKpi(kpiData[m.name]),
+        }))
         .sort((a, b) => b.overallScore - a.overallScore)
         .slice(0, 3)
         .map((m, idx) => ({ ...m, rank: idx + 1 }));
@@ -47,20 +44,15 @@ export default function KpiHistoryModal({ isOpen, onClose, activeDivision }: Kpi
 
         return periods.map((periodName) => {
             const membersWithScore = activeDivision.members.map((m: any) => {
-                const memberData = kpiMembers[m.name as keyof typeof kpiMembers];
-                const score = memberData
-                    ? memberData.history[periodName as keyof typeof memberData.history]
-                    : 0;
+                const memberData = kpiData[m.name];
+                const score = memberData?.history?.[periodName] ?? 0;
                 return { ...m, avg: score };
             });
             const sortedMembers = membersWithScore
                 .sort((a: any, b: any) => b.avg - a.avg)
                 .map((m: any, idx: number) => ({ ...m, rank: idx + 1 }));
 
-            return {
-                period: periodName,
-                members: sortedMembers,
-            };
+            return { period: periodName, members: sortedMembers };
         });
     };
 
@@ -86,7 +78,7 @@ export default function KpiHistoryModal({ isOpen, onClose, activeDivision }: Kpi
                             <img
                                 src={activeDivision.image}
                                 alt={`${activeDivision.name} Background`}
-                                className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity"
+                                className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale mix-blend-luminosity"
                             />
                         )}
                         <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/30 via-[#070D18]/95 to-[#03060C]" />
@@ -177,8 +169,9 @@ export default function KpiHistoryModal({ isOpen, onClose, activeDivision }: Kpi
                             >
                                 {historyData.map((data, index) => (
                                     <div key={index} className="flex flex-col">
-                                        <div className="flex items-center gap-3 md:gap-4 mb-4 sticky top-0 bg-[#070D18]/95 backdrop-blur-md rounded-full z-30 py-2 -mx-2 px-2">
-                                            <div className="border border-[#1A2333] rounded-lg px-4 md:px-5 py-1.5 md:py-2 bg-[#0B1524]">
+                                        
+                                        <div className="flex items-center gap-3 md:gap-4 mb-4 sticky top-0 bg-[#070D18]/95 backdrop-blur-md z-30 py-2 -mx-2 px-2">
+                                            <div className="border border-[#1A2333] px-4 md:px-5 py-1.5 md:py-2 bg-[#0B1524]">
                                                 <h3 className="text-white font-semibold font-['Kanit'] text-xs md:text-sm whitespace-nowrap">
                                                     {data.period}
                                                 </h3>

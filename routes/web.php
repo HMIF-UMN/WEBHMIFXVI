@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\AboutUs\AboutImageController;
 use App\Http\Controllers\Admin\AboutUs\DivisionMemberController;
 use App\Http\Controllers\Admin\AboutUs\WordinganController as AboutWordinganController;
+use App\Http\Controllers\Admin\AspirationSubmissionController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ContactSubmissionController;
 use App\Http\Controllers\Admin\CustomLinkController;
 use App\Http\Controllers\Admin\GalleryImageController;
@@ -11,7 +13,11 @@ use App\Http\Controllers\Admin\KpiController;
 use App\Http\Controllers\Admin\Proker\WordinganController as ProkerWordinganController;
 use App\Http\Controllers\Admin\Proker\WorkProgramController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\AspirationController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,13 +25,14 @@ use Inertia\Inertia;
 // ── Main pages ────────────────────────────────────────────────────────────────
 Route::get('/',         [HomeController::class, 'index'])->name('home');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-Route::get('/aboutUs',                 fn() => Inertia::render('AboutUs'))->name('about');
+Route::get('/aboutUs',                 [AboutUsController::class, 'index'])->name('about');
 Route::get('/workProgram',             fn() => Inertia::render('WorkProgram'))->name('workProgram');
-Route::get('/gallery',                 fn() => Inertia::render('Gallery'))->name('gallery');
+Route::get('/gallery',                 [GalleryController::class, 'index'])->name('gallery');
 Route::get('/information',             fn() => Inertia::render('Information'))->name('information');
 Route::get('/information/detail/{id}', fn(int $id) => Inertia::render('InformationDetail', ['id' => $id]))->name('information.detail');
 Route::get('/aspirationForm',          fn() => Inertia::render('AspirationForm'))->name('aspirationForm');
-Route::get('/linkPage',                fn() => Inertia::render('LinkPage'))->name('linkPage');
+Route::post('/aspirationForm',         [AspirationController::class, 'store'])->name('aspirationForm.store');
+Route::get('/profile',                fn() => Inertia::render('LinkPage'))->name('linkPage');
 
 // ── Event short-links ─────────────────────────────────────────────────────────
 Route::redirect('/inforta', 'https://infortaumn.my.id', 301);
@@ -33,11 +40,17 @@ Route::redirect('/ppif',    'https://ppif.umn.ac.id',   301);
 Route::redirect('/byte',    'https://byteumn.com',      301);
 
 // ── Auth routes ───────────────────────────────────────────────────────────────
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+// ── Custom admin login entry point ────────────────────────────────────────────
+Route::middleware('guest')->group(function () {
+    Route::get('/adminhmifxvi/login',  [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/adminhmifxvi/login', [AuthenticatedSessionController::class, 'store']);
+});
 
 // ── Authenticated routes ──────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', fn() => Inertia::render('Admin/Dashboard'))->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -58,6 +71,10 @@ Route::middleware('auth')->group(function () {
             Route::get('contact-submissions',                                  [ContactSubmissionController::class, 'index'])->name('contact-submissions.index');
             Route::patch('contact-submissions/{contactSubmission}/read',       [ContactSubmissionController::class, 'markRead'])->name('contact-submissions.read');
             Route::delete('contact-submissions/{contactSubmission}',           [ContactSubmissionController::class, 'destroy'])->name('contact-submissions.destroy');
+
+            Route::get('aspiration-submissions',                                     [AspirationSubmissionController::class, 'index'])->name('aspiration-submissions.index');
+            Route::patch('aspiration-submissions/{aspirationSubmission}/read',       [AspirationSubmissionController::class, 'markRead'])->name('aspiration-submissions.read');
+            Route::delete('aspiration-submissions/{aspirationSubmission}',           [AspirationSubmissionController::class, 'destroy'])->name('aspiration-submissions.destroy');
 
             Route::prefix('about-us')->name('about-us.')->group(function () {
                 Route::get('wordingan',   [AboutWordinganController::class, 'edit'])->name('wordingan.edit');

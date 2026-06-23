@@ -36,11 +36,19 @@ php artisan key:generate
 
 Edit `.env` and configure your database connection.
 
-**3. Run migrations**
+**3. Run migrations and seed the database**
 
 ```bash
 php artisan migrate
+php artisan db:seed
 ```
+
+The seeder creates:
+- Default admin user(s) (`UserSeeder`)
+- KPI member records (`KpiMemberSeeder`)
+- Sample gallery images (`GalleryImageSeeder`)
+
+> **Note:** You must run both `migrate` and `db:seed` before the admin panel works — the admin user is created by the seeder.
 
 **4. Start the development servers**
 

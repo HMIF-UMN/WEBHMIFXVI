@@ -1,44 +1,44 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { aboutUsData } from '@/components/AboutUs/datas/aboutUsData';
 import { MaskImage, getTitleColor } from '@/components/AboutUs/datas/division';
-import { kpiMembers } from '@/components/AboutUs/datas/kpiMembers';
 import KpiHistoryModal from '@/components/AboutUs/KpiHistory';
+import { KpiData } from '@/types';
 
 const buttonImg = '/assets/AboutUs/assetDetailMembers/ButtonMore.svg';
 const instagram = '/assets/AboutUs/assetDetailMembers/instagram.svg';
 const linkedln = '/assets/AboutUs/assetDetailMembers/linkedln.svg';
 const github = '/assets/AboutUs/assetDetailMembers/github.svg';
 
-// Helper: rata-rata KPI seluruh anggota divisi (semua periode)
-const getDivisionAverageKpi = (members: any[]) => {
+const getDivisionAverageKpi = (members: any[], kpiData: KpiData): number => {
     let totalScore = 0;
     let totalDataCount = 0;
-
     members.forEach((m) => {
-        const memberData = kpiMembers[m.name as keyof typeof kpiMembers];
-        if (memberData && memberData.history) {
+        const memberData = kpiData[m.name];
+        if (memberData?.history) {
             const values = Object.values(memberData.history);
             totalScore += values.reduce((sum, v) => sum + v, 0);
             totalDataCount += values.length;
         }
     });
-
     return totalDataCount === 0 ? 0 : Math.floor(totalScore / totalDataCount);
 };
 
-// Helper: rata-rata KPI satu anggota (semua periode)
-const getMemberAverageKpi = (memberName: string): number => {
-    const memberData = kpiMembers[memberName as keyof typeof kpiMembers];
-    if (!memberData || !memberData.history) return 0;
+const getMemberAverageKpi = (memberName: string, kpiData: KpiData): number => {
+    const memberData = kpiData[memberName];
+    if (!memberData?.history) return 0;
     const values = Object.values(memberData.history);
     if (values.length === 0) return 0;
     return Math.floor(values.reduce((sum, v) => sum + v, 0) / values.length);
 };
 
-export default function DivisionSection() {
+interface Props {
+    kpiData: KpiData;
+}
+
+export default function DivisionSection({ kpiData }: Props) {
     const [activeIndex, setActiveIndex] = useState(3);
     const [showDetail, setShowDetail] = useState(false);
     const [activeMemberIndex, setActiveMemberIndex] = useState(0);
@@ -48,15 +48,19 @@ export default function DivisionSection() {
     const activeMember = activeDivision.members[activeMemberIndex];
     const hasMultipleMembers = activeDivision.members.length > 1;
 
-    // ✅ Sekarang dihitung sebagai rata-rata dari semua periode, bukan .overall
-    const activeMemberKpi = getMemberAverageKpi(activeMember.name);
-    const displayKpi = getDivisionAverageKpi(activeDivision.members);
+    const activeMemberKpi = getMemberAverageKpi(activeMember.name, kpiData);
+    const displayKpi = getDivisionAverageKpi(activeDivision.members, kpiData);
 
     const nextMember = () => {
         setActiveMemberIndex((prev) => (prev + 1) % activeDivision.members.length);
     };
     const prevMember = () => {
         setActiveMemberIndex((prev) => (prev - 1 + activeDivision.members.length) % activeDivision.members.length);
+    };
+
+    const formatShortName = (fullName: string) => {
+        if (!fullName) return "";
+        return fullName.split(" ").slice(0, 2).join(" ");
     };
 
     const bgVariants: Variants = {
@@ -120,14 +124,15 @@ export default function DivisionSection() {
                 transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
             >
                 {activeDivision.image && (
-                    <img src={activeDivision.image} alt={activeDivision.name} className="absolute inset-0 w-full h-full object-cover object-right grayscale mix-blend-luminosity" />
+                    <img src={activeDivision.image} alt={activeDivision.name} className="absolute inset-0 w-full h-full object-cover object-left md:object-[15%_center] grayscale mix-blend-luminosity opacity-80" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#060C17] via-[#060C17]/95 to-[#060C17]/10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#060C17]/90 via-[#060C17]/75 to-[#060C17]/10" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#060C17] via-transparent to-transparent" />
             </motion.div>
 
             {/* CONTENT AREA */}
-            <div className="relative z-10 grow w-full max-w-[90rem] mx-auto px-6 sm:px-10 md:px-24 h-full flex flex-col justify-center pt-[60vw] sm:pt-[45vw] md:pt-[20vw] lg:pt-48 pb-12 lg:pb-20">
+            {/* FIKS: pt-[60vw] agar pasti aman dari grid mask yang tingginya 50vw */}
+            <div className={`relative z-10 grow w-full max-w-[90rem] mx-auto px-6 sm:px-10 md:px-24 h-full flex flex-col justify-center pb-12 lg:pb-20 transition-all duration-500 ${showDetail ? 'pt-[60vw] sm:pt-[40vw] md:pt-[20vw] lg:pt-48' : 'pt-[60vw] sm:pt-[45vw] md:pt-[20vw] lg:pt-48'}`}>
                 <AnimatePresence mode="wait">
 
                     {!showDetail ? (
@@ -153,7 +158,7 @@ export default function DivisionSection() {
                                 </motion.h1>
 
                                 <motion.p variants={contentVariants} className="text-[#C2CAD6] font-['Work_Sans'] text-[10px] sm:text-xs md:text-sm lg:text-[15px] mb-8 lg:mb-12 uppercase tracking-[0.15em] leading-relaxed max-w-3xl">
-                                    {activeDivision.members.map((m: any) => m.name).join(" • ")}
+                                    {activeDivision.members.map((m: any) => formatShortName(m.name)).join(" • ")}
                                 </motion.p>
 
                                 <motion.button
@@ -200,18 +205,17 @@ export default function DivisionSection() {
                         </motion.div>
 
                     ) : (
-                        // CAROUSEL
                         <motion.div
                             key="detail"
                             variants={contentVariants}
                             initial="hidden"
                             animate="visible"
                             exit="exit"
-                            className="flex flex-col lg:grid lg:grid-cols-12 gap-8 w-full h-full lg:items-center relative pt-10"
+                            className="flex flex-col lg:grid lg:grid-cols-12 gap-2 lg:gap-8 w-full h-full lg:items-center relative pt-2 lg:pt-10"
                         >
                             {/* KIRI: IMAGE */}
-                            <div className="lg:col-span-6 flex justify-center items-center relative min-h-[50vh] lg:min-h-[70vh]">
-                                <div className="relative w-[70%] max-w-[280px] sm:max-w-[320px] lg:max-w-[380px] aspect-[3/4]">
+                            <div className="lg:col-span-6 flex justify-center items-center relative min-h-[40vh] lg:min-h-[70vh]">
+                                <div className="relative w-[70%] max-w-[260px] sm:max-w-[320px] lg:max-w-[380px] aspect-[3/4]">
 
                                     {hasMultipleMembers && (
                                         <>
@@ -256,7 +260,7 @@ export default function DivisionSection() {
                                         <img src={MaskImage(activeDivision.singkatan)} alt="Mask" className="absolute inset-0 w-full h-full object-contain" />
                                     </div>
 
-                                    {/* KPI — rata-rata member aktif */}
+                                    {/* KPI */}
                                     <div className="absolute -right-12 -bottom-4 md:-right-24 md:-bottom-6 z-20 text-right">
                                         <h2 className="font-['Kanit'] font-bold text-5xl md:text-7xl text-white leading-none drop-shadow-lg">
                                             {(activeMemberKpi > 0 ? activeMemberKpi : displayKpi).toLocaleString('id-ID')}
@@ -274,23 +278,23 @@ export default function DivisionSection() {
                             </div>
 
                             {/* KANAN: TEXT & TOMBOL */}
-                            <div className="lg:col-span-6 flex flex-col items-center justify-center text-center relative z-20 mt-12 lg:mt-0">
+                            <div className="lg:col-span-6 flex flex-col items-center justify-center text-center relative z-20 mt-4 lg:mt-0">
                                 <button
                                     onClick={() => setShowDetail(false)}
-                                    className="text-slate-400 hover:text-white underline underline-offset-4 font-['Work_Sans'] text-xs md:text-sm transition-colors mb-8 md:mb-12 cursor-pointer"
+                                    className="text-slate-400 hover:text-white underline underline-offset-4 font-['Work_Sans'] text-xs md:text-sm transition-colors mb-4 lg:mb-12 cursor-pointer"
                                 >
                                     Kembali
                                 </button>
 
                                 {hasMultipleMembers ? (
-                                    <button onClick={prevMember} className="opacity-60 hover:opacity-100 transition-opacity mb-4 cursor-pointer">
-                                        <img src="/assets/AboutUs/assetDetailMembers/FrameUp.svg" alt="Up" className="w-[32px] h-[32px]" />
+                                    <button onClick={prevMember} className="opacity-60 hover:opacity-100 transition-opacity mb-2 lg:mb-4 cursor-pointer">
+                                        <img src="/assets/AboutUs/assetDetailMembers/FrameUp.svg" alt="Up" className="w-[28px] lg:w-[32px] h-[28px] lg:h-[32px]" />
                                     </button>
                                 ) : (
-                                    <div className="h-[32px] w-[32px] mb-4"></div>
+                                    <div className="h-[28px] lg:h-[32px] w-[28px] lg:w-[32px] mb-2 lg:mb-4"></div>
                                 )}
 
-                                <div className="min-h-[200px] md:min-h-[220px] flex flex-col items-center justify-center w-full">
+                                <div className="min-h-[140px] lg:min-h-[220px] flex flex-col items-center justify-center w-full">
                                     <AnimatePresence mode="wait">
                                         <motion.div
                                             key={activeMemberIndex}
@@ -298,16 +302,17 @@ export default function DivisionSection() {
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: -10 }}
                                             transition={{ duration: 0.3 }}
-                                            className="flex flex-col items-center max-w-sm px-4"
+                                            className="flex flex-col items-center w-full px-4"
                                         >
-                                            <p className="text-slate-400 uppercase tracking-[0.2em] font-['Work_Sans'] text-[10px] md:text-xs font-semibold mb-2">
+                                            <p className="text-slate-400 uppercase tracking-[0.2em] font-['Work_Sans'] text-[10px] md:text-xs font-semibold mb-1 lg:mb-2 text-center whitespace-nowrap">
                                                 {activeMember.position || "MEMBER"}
                                             </p>
-                                            <h2 className="text-white font-['Kanit'] font-semibold text-3xl md:text-5xl leading-[1.1] mb-6">
-                                                {activeMember.name}
+                                            
+                                            <h2 className="text-white font-['Kanit'] font-semibold text-[1.75rem] sm:text-4xl md:text-5xl leading-[1.1] mb-2 lg:mb-6 whitespace-nowrap text-center tracking-tight">
+                                                {formatShortName(activeMember.name)}
                                             </h2>
 
-                                            <p className="text-slate-300 font-['Work_Sans'] text-xs md:text-sm italic leading-relaxed min-h-[40px]">
+                                            <p className="text-slate-300 font-['Work_Sans'] text-[11px] lg:text-sm italic leading-relaxed min-h-[30px] lg:min-h-[40px]">
                                                 {activeMember.quote ? `"${activeMember.quote}"` : " "}
                                             </p>
                                         </motion.div>
@@ -315,7 +320,7 @@ export default function DivisionSection() {
                                 </div>
 
                                 {/* Sosmed */}
-                                <div className="flex gap-6 mt-4 mb-6 items-center justify-center">
+                                <div className="flex gap-5 lg:gap-6 mt-2 lg:mt-4 mb-3 lg:mb-6 items-center justify-center">
                                     {activeMember.instagram ? (
                                         <a href={activeMember.instagram} target="_blank" rel="noopener noreferrer">
                                             <img src={instagram} alt="Instagram" className="w-[22px] h-[22px] opacity-60 hover:opacity-100 cursor-pointer transition-opacity" />
@@ -343,10 +348,10 @@ export default function DivisionSection() {
 
                                 {hasMultipleMembers ? (
                                     <button onClick={nextMember} className="opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
-                                        <img src="/assets/AboutUs/assetDetailMembers/FrameDown.svg" alt="Down" className="w-[32px] h-[32px]" />
+                                        <img src="/assets/AboutUs/assetDetailMembers/FrameDown.svg" alt="Down" className="w-[28px] lg:w-[32px] h-[28px] lg:h-[32px]" />
                                     </button>
                                 ) : (
-                                    <div className="h-[32px] w-[32px]"></div>
+                                    <div className="h-[28px] lg:h-[32px] w-[28px] lg:w-[32px]"></div>
                                 )}
                             </div>
                         </motion.div>
@@ -359,6 +364,7 @@ export default function DivisionSection() {
                 isOpen={isHistoryModalOpen}
                 onClose={() => setIsHistoryModalOpen(false)}
                 activeDivision={activeDivision}
+                kpiData={kpiData}
             />
 
         </section>

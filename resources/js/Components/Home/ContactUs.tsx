@@ -1,5 +1,5 @@
 import { useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
 
 const socialLinks = [
     { icon: '/assets/Home/contactus/email.svg', label: 'hmif@umn.ac.id', href: 'https://mail.google.com/mail/u/0/?fs=1&to=hmif@umn.ac.id&tf=cm' },
@@ -20,8 +20,24 @@ export default function ContactUs() {
         message: '',
     });
 
+    const [clientErrors, setClientErrors] = useState<Record<string, string>>({});
+
+    const validate = () => {
+        const errs: Record<string, string> = {};
+        if (!data.first_name.trim()) errs.first_name = 'First name is required.';
+        if (!data.email.trim()) errs.email = 'Email is required.';
+        if (!data.message.trim()) errs.message = 'Message is required.';
+        return errs;
+    };
+
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+        const errs = validate();
+        if (Object.keys(errs).length > 0) {
+            setClientErrors(errs);
+            return;
+        }
+        setClientErrors({});
         post(route('contact.store'), { onSuccess: () => reset() });
     };
 
@@ -51,7 +67,7 @@ export default function ContactUs() {
                     </div>
                 </div>
 
-                <div className="flex-1 w-full max-w-[726px] rounded-2xl border-2 border-[#F0F2F5]/20 p-[43px] flex flex-col gap-12" style={{ background: 'radial-gradient(ellipse at 60% 110%, rgba(60,94,119,0.20) 0%, rgba(16,27,42,0.20) 50%, rgba(1,5,17,0.20) 100%), linear-gradient(90deg, rgba(60,64,74,0.15) 0%, rgba(60,64,74,0.15) 100%)', backdropFilter: 'blur(20px)' }}>
+                <div className="flex-1 w-full max-w-[726px] rounded-2xl border-2 border-[#F0F2F5]/20 p-6 sm:p-[43px] flex flex-col gap-8 sm:gap-12" style={{ background: 'radial-gradient(ellipse at 60% 110%, rgba(60,94,119,0.20) 0%, rgba(16,27,42,0.20) 50%, rgba(1,5,17,0.20) 100%), linear-gradient(90deg, rgba(60,64,74,0.15) 0%, rgba(60,64,74,0.15) 100%)', backdropFilter: 'blur(20px)' }}>
                     <div className="flex flex-col gap-2">
                         <h3 className="font-kanit text-[#F0F2F5] text-[40px] leading-[0.9] tracking-[-2px]">Get in Touch</h3>
                         <p className="text-[#C2CAD6] text-xl" style={{ fontFamily: 'var(--font-work-sans)' }}>Reach us anytime.</p>
@@ -67,7 +83,7 @@ export default function ContactUs() {
                         </div>
                     ) : (
                         <form onSubmit={submit} className="flex flex-col gap-5">
-                            <div className="flex gap-5">
+                            <div className="flex flex-col sm:flex-row gap-5">
                                 <div className="flex flex-col gap-2 flex-1">
                                     <label className="text-[#C2CAD6] text-xl font-semibold" style={{ fontFamily: 'var(--font-work-sans)' }}>First Name</label>
                                     <input
@@ -78,7 +94,7 @@ export default function ContactUs() {
                                         className={inputClass}
                                         style={{ fontFamily: 'var(--font-work-sans)' }}
                                     />
-                                    {errors.first_name && <p className="text-red-400 text-sm">{errors.first_name}</p>}
+                                    {(errors.first_name || clientErrors.first_name) && <p className="text-red-400 text-sm">{errors.first_name || clientErrors.first_name}</p>}
                                 </div>
                                 <div className="flex flex-col gap-2 flex-1">
                                     <label className="text-[#C2CAD6] text-xl font-semibold" style={{ fontFamily: 'var(--font-work-sans)' }}>Last Name</label>
@@ -103,7 +119,7 @@ export default function ContactUs() {
                                     className={inputClass}
                                     style={{ fontFamily: 'var(--font-work-sans)' }}
                                 />
-                                {errors.email && <p className="text-red-400 text-sm">{errors.email}</p>}
+                                {(errors.email || clientErrors.email) && <p className="text-red-400 text-sm">{errors.email || clientErrors.email}</p>}
                             </div>
                             <div className="flex flex-col gap-2">
                                 <label className="text-[#C2CAD6] text-xl font-semibold" style={{ fontFamily: 'var(--font-work-sans)' }}>Message</label>
@@ -115,7 +131,7 @@ export default function ContactUs() {
                                     className="w-full border border-white/30 rounded-[33px] px-7 py-3 bg-transparent text-[#C2CAD6] text-xl placeholder:text-[#C2CAD6]/50 outline-none focus:border-[#149ED8]/60 transition-colors resize-none"
                                     style={{ fontFamily: 'var(--font-work-sans)' }}
                                 />
-                                {errors.message && <p className="text-red-400 text-sm">{errors.message}</p>}
+                                {(errors.message || clientErrors.message) && <p className="text-red-400 text-sm">{errors.message || clientErrors.message}</p>}
                             </div>
                             <button
                                 type="submit"
