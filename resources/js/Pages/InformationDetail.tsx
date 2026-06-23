@@ -1,14 +1,83 @@
 import { Head, router } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 import AppLayout from '@/Layouts/AppLayout';
 import CardOther from '@/components/information/otherCard';
-import { newsArticles, getOtherArticles } from '@/components/information/newsData';
 import { getCategoryColor, getCategoryLabel } from '@/components/information/categories';
+
+interface Article {
+    id: number;
+    category: string;
+    title: string;
+    date: string;
+    image: string;
+    imageAlt: string;
+    excerpt: string;
+    content: string;
+}
 
 interface Props { id: number }
 
 export default function InformationDetail({ id }: Props) {
-    const article = newsArticles[id];
-    if (!article) return <AppLayout><Head title="Not Found" /><div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">Article not found</div></AppLayout>;
+    const [article, setArticle] = useState<Article | null>(null);
+    const [allArticles, setAllArticles] = useState<Record<number, Article> | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        fetchArticleData();
+    }, [id]);
+
+    const fetchArticleData = async () => {
+        try {
+            const [articleRes, allRes] = await Promise.all([
+                fetch(`/api/information/articles/${id}`),
+                fetch('/api/information/articles'),
+            ]);
+
+            if (!articleRes.ok) {
+                setError('Article not found');
+                setLoading(false);
+                return;
+            }
+
+            const articleData = await articleRes.json();
+            const allData = await allRes.json();
+
+            setArticle(articleData.data);
+            setAllArticles(allData.data);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Error fetching article');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <AppLayout>
+                <Head title="Loading" />
+                <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">
+                    <p className="text-gray-400">Loading article...</p>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    if (error || !article) {
+        return (
+            <AppLayout>
+                <Head title="Not Found" />
+                <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">
+                    <p className="text-red-400">{error || 'Article not found'}</p>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    const getOtherArticles = (articleId: number) => {
+        if (!allArticles) return [];
+        return Object.values(allArticles).filter((a) => a.id !== articleId);
+    };
 
     const others = getOtherArticles(id).slice(0, 3);
 
