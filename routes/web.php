@@ -24,14 +24,14 @@ use Inertia\Inertia;
 
 // ── Main pages ────────────────────────────────────────────────────────────────
 Route::get('/',         [HomeController::class, 'index'])->name('home');
-Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
 Route::get('/aboutUs',                 [AboutUsController::class, 'index'])->name('about');
 Route::get('/workProgram',             fn() => Inertia::render('WorkProgram'))->name('workProgram');
 Route::get('/gallery',                 [GalleryController::class, 'index'])->name('gallery');
 Route::get('/information',             fn() => Inertia::render('Information'))->name('information');
 Route::get('/information/detail/{id}', fn(int $id) => Inertia::render('InformationDetail', ['id' => $id]))->name('information.detail');
 Route::get('/aspirationForm',          fn() => Inertia::render('AspirationForm'))->name('aspirationForm');
-Route::post('/aspirationForm',         [AspirationController::class, 'store'])->name('aspirationForm.store');
+Route::post('/aspirationForm',         [AspirationController::class, 'store'])->middleware('throttle:5,1')->name('aspirationForm.store');
 Route::get('/profile',                fn() => Inertia::render('LinkPage'))->name('linkPage');
 
 // ── Event short-links ─────────────────────────────────────────────────────────
@@ -45,7 +45,7 @@ require __DIR__ . '/auth.php';
 // ── Custom admin login entry point ────────────────────────────────────────────
 Route::middleware('guest')->group(function () {
     Route::get('/adminhmifxvi/login',  [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('/adminhmifxvi/login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('/adminhmifxvi/login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:5,1');
 });
 
 // ── Authenticated routes ──────────────────────────────────────────────────────
