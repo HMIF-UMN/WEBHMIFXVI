@@ -19,6 +19,7 @@ const adminNav: NavSection[] = [
         items: [
             { label: 'Custom Link', href: route('admin.custom-links.index'), match: 'admin.custom-links.*' },
             { label: 'Gallery',     href: route('admin.gallery.index'),        match: 'admin.gallery.*' },
+            { label: 'Information', href: route('admin.information.index'),    match: 'admin.information.*' },
         ],
     },
     {

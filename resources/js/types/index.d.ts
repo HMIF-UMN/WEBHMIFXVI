@@ -49,6 +49,22 @@ export interface CustomLink {
     updated_at: string;
 }
 
+export interface Article {
+    id: number;
+    category: string;
+    title: string;
+    published_at: string;
+    date: string;
+    image_path: string;
+    image_url: string;
+    image_alt: string | null;
+    excerpt: string;
+    content: string;
+    is_published: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
 export interface PaginationLink {
     url: string | null;
     label: string;
