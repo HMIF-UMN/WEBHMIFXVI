@@ -2,15 +2,15 @@ import { Head, router } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import AppLayout from '@/Layouts/AppLayout';
 import CardOther from '@/components/information/otherCard';
-import { getCategoryColor, getCategoryLabel } from '@/components/information/categories';
+import { CategoryKey, getCategoryColor, getCategoryLabel } from '@/components/information/categories';
 
 interface Article {
     id: number;
-    category: string;
+    category: CategoryKey;
     title: string;
     date: string;
-    image: string;
-    imageAlt: string;
+    image_url: string;
+    image_alt: string;
     excerpt: string;
     content: string;
 }
@@ -19,7 +19,7 @@ interface Props { id: number }
 
 export default function InformationDetail({ id }: Props) {
     const [article, setArticle] = useState<Article | null>(null);
-    const [allArticles, setAllArticles] = useState<Record<number, Article> | null>(null);
+    const [allArticles, setAllArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -44,7 +44,7 @@ export default function InformationDetail({ id }: Props) {
             const allData = await allRes.json();
 
             setArticle(articleData.data);
-            setAllArticles(allData.data);
+            setAllArticles(allData.data as Article[]);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Error fetching article');
         } finally {
@@ -74,10 +74,7 @@ export default function InformationDetail({ id }: Props) {
         );
     }
 
-    const getOtherArticles = (articleId: number) => {
-        if (!allArticles) return [];
-        return Object.values(allArticles).filter((a) => a.id !== articleId);
-    };
+    const getOtherArticles = (articleId: number) => allArticles.filter((a) => a.id !== articleId);
 
     const others = getOtherArticles(id).slice(0, 3);
 
@@ -98,7 +95,7 @@ export default function InformationDetail({ id }: Props) {
                                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-100 mb-3 leading-tight tracking-tight">{article.title}</h1>
                                 <p className="text-xs sm:text-sm text-slate-500 mb-6">{article.date}</p>
                                 <div className="rounded-lg overflow-hidden mb-6 md:mb-8">
-                                    <img src={article.image} alt={article.imageAlt} className="w-full h-auto object-cover block" />
+                                    <img src={article.image_url} alt={article.image_alt} className="w-full h-auto object-cover block" />
                                 </div>
                                 <div className="prose prose-invert max-w-none">
                                     {article.content.split('\n\n').map((paragraph, i) => (
@@ -109,7 +106,7 @@ export default function InformationDetail({ id }: Props) {
                         </div>
                         <div className="border border-cyan-400/40 bg-slate-900/70 rounded-2xl p-4 sm:p-5 lg:p-6 flex flex-col">
                             <h2 className="text-lg sm:text-xl font-black text-slate-100 mb-4">Other News</h2>
-                            {others.map((a, i) => <CardOther key={a.id} category={a.category} title={a.title} date={a.date} excerpt={a.excerpt} image={a.image} onClick={() => router.visit(`/information/detail/${a.id}`)} isLast={i === others.length - 1} />)}
+                            {others.map((a, i) => <CardOther key={a.id} category={a.category} title={a.title} date={a.date} excerpt={a.excerpt} image={a.image_url} onClick={() => router.visit(`/information/detail/${a.id}`)} isLast={i === others.length - 1} />)}
                         </div>
                     </div>
                 </div>
