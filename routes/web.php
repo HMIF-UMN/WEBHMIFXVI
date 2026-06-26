@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ContactSubmissionController;
 use App\Http\Controllers\Admin\CustomLinkController;
 use App\Http\Controllers\Admin\GalleryImageController;
 use App\Http\Controllers\Admin\Home\HomeSettingsController;
+use App\Http\Controllers\Admin\InformationController as AdminInformationController;
 use App\Http\Controllers\Admin\KpiController;
 use App\Http\Controllers\Admin\Proker\WordinganController as ProkerWordinganController;
 use App\Http\Controllers\Admin\Proker\WorkProgramController;
@@ -95,6 +96,15 @@ Route::middleware('auth')->group(function () {
                 Route::resource('work-programs', WorkProgramController::class)->except(['show']);
                 Route::get('wordingan',   [ProkerWordinganController::class, 'edit'])->name('wordingan.edit');
                 Route::patch('wordingan', [ProkerWordinganController::class, 'update'])->name('wordingan.update');
+            });
+
+            Route::prefix('information')->name('information.')->group(function () {
+                Route::get('/',               [AdminInformationController::class, 'index'])->name('index');
+                Route::get('create',          [AdminInformationController::class, 'create'])->name('create');
+                Route::post('/',              [AdminInformationController::class, 'store'])->name('store');
+                Route::get('{article}/edit', [AdminInformationController::class, 'edit'])->name('edit');
+                Route::post('{article}',     [AdminInformationController::class, 'update'])->name('update');
+                Route::delete('{article}',   [AdminInformationController::class, 'destroy'])->name('destroy');
             });
         });
 
