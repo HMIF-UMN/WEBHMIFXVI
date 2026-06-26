@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             KpiMemberSeeder::class,
             GalleryImageSeeder::class,
+            ArticleSeeder::class,
         ]);
     }
 }
