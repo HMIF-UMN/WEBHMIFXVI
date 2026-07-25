@@ -27,7 +27,7 @@ class GalleryImageController extends Controller
             'description' => ['nullable', 'string', 'max:500'],
         ]);
 
-        $path = $request->file('image')->store('gallery', 'uploads');
+        $path = $request->file('image')->store('gallery', 'public');
         $nextOrder = GalleryImage::max('order') + 1;
 
         GalleryImage::create([
@@ -49,8 +49,8 @@ class GalleryImageController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            Storage::disk('uploads')->delete($galleryImage->image_path);
-            $galleryImage->image_path = $request->file('image')->store('gallery', 'uploads');
+            Storage::disk('public')->delete($galleryImage->image_path);
+            $galleryImage->image_path = $request->file('image')->store('gallery', 'public');
         }
 
         $galleryImage->title       = $request->title ?: null;
@@ -62,7 +62,7 @@ class GalleryImageController extends Controller
 
     public function destroy(GalleryImage $galleryImage): RedirectResponse
     {
-        Storage::disk('uploads')->delete($galleryImage->image_path);
+        Storage::disk('public')->delete($galleryImage->image_path);
         $galleryImage->delete();
 
         return redirect()->route('admin.gallery.index')->with('success', 'Image deleted.');

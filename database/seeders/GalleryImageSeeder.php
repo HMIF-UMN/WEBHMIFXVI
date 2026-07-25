@@ -21,7 +21,7 @@ class GalleryImageSeeder extends Seeder
             ['title' => 'Dokumentasi Kegiatan',           'description' => 'Dokumentasi berbagai kegiatan dan momen berkesan HMIF XVI sepanjang periode kepengurusan.'],
         ];
 
-        $destDir = public_path('uploads/gallery');
+        $destDir = storage_path('app/public/gallery');
         if (! File::exists($destDir)) {
             File::makeDirectory($destDir, 0755, true);
         }

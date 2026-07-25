@@ -1,2 +1,3 @@
-*
-!.gitignore
+# Media in this folder is committed so it ships with the repo.
+# Plesk has no storage symlink; files here are served via the /storage/{path}
+# route (routes/web.php). Nothing is ignored so uploaded/seed images are tracked.

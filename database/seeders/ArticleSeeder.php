@@ -12,7 +12,7 @@ class ArticleSeeder extends Seeder
 {
     public function run(): void
     {
-        $destDir = public_path('uploads/information');
+        $destDir = storage_path('app/public/information');
         if (! File::exists($destDir)) {
             File::makeDirectory($destDir, 0755, true);
         }

@@ -36,7 +36,7 @@ class InformationController extends Controller
     {
         $data = $this->validateArticle($request, imageRequired: true);
 
-        $data['image_path']   = $request->file('image')->store('information', 'uploads');
+        $data['image_path']   = $request->file('image')->store('information', 'public');
         $data['is_published'] = $request->boolean('is_published');
 
         Article::create($data);
@@ -57,8 +57,8 @@ class InformationController extends Controller
         $data = $this->validateArticle($request, imageRequired: false);
 
         if ($request->hasFile('image')) {
-            Storage::disk('uploads')->delete($article->image_path);
-            $data['image_path'] = $request->file('image')->store('information', 'uploads');
+            Storage::disk('public')->delete($article->image_path);
+            $data['image_path'] = $request->file('image')->store('information', 'public');
         }
 
         $data['is_published'] = $request->boolean('is_published');
@@ -70,7 +70,7 @@ class InformationController extends Controller
 
     public function destroy(Article $article): RedirectResponse
     {
-        Storage::disk('uploads')->delete($article->image_path);
+        Storage::disk('public')->delete($article->image_path);
         $article->delete();
 
         return redirect()->route('admin.information.index')->with('success', 'Article deleted.');

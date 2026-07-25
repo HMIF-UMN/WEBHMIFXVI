@@ -33,7 +33,11 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
+            // Disabled: the framework's auto-serve route for this disk would claim
+            // "/storage/{path}" (the private disk) and shadow the public storage
+            // route in routes/web.php. Public uploads are served from the "public"
+            // disk instead — no symlink required (Plesk-safe).
+            'serve' => false,
             'throw' => false,
             'report' => false,
         ],
@@ -42,15 +46,6 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
-            'visibility' => 'public',
-            'throw' => false,
-            'report' => false,
-        ],
-
-        'uploads' => [
-            'driver' => 'local',
-            'root' => public_path('uploads'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/uploads',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

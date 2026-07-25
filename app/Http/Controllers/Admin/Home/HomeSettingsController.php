@@ -17,7 +17,7 @@ class HomeSettingsController extends Controller
         $heroImage = SiteContent::get('hero_image');
 
         return Inertia::render('Admin/Home/Settings', [
-            'heroImage' => $heroImage ? "/uploads/{$heroImage}" : null,
+            'heroImage' => $heroImage ? "/storage/{$heroImage}" : null,
             'sections'  => [
                 'about'      => SiteContent::get('section_about_visible',     'true') === 'true',
                 'pojok_hmif' => SiteContent::get('section_pojok_hmif_visible','true') === 'true',
@@ -45,10 +45,10 @@ class HomeSettingsController extends Controller
 
         $old = SiteContent::get('hero_image');
         if ($old) {
-            Storage::disk('uploads')->delete($old);
+            Storage::disk('public')->delete($old);
         }
 
-        $path = $request->file('image')->store('home', 'uploads');
+        $path = $request->file('image')->store('home', 'public');
         SiteContent::set('hero_image', $path);
 
         return redirect()->back()->with('success', 'Hero image updated.');

@@ -13,7 +13,7 @@ class HomeController extends Controller
         $heroImage = SiteContent::get('hero_image');
 
         return Inertia::render('Home', [
-            'heroImage' => $heroImage ? "/uploads/{$heroImage}" : null,
+            'heroImage' => $heroImage ? "/storage/{$heroImage}" : null,
             'sections'  => [
                 'about'     => SiteContent::get('section_about_visible',     'true') === 'true',
                 'pojok_hmif'=> SiteContent::get('section_pojok_hmif_visible','true') === 'true',

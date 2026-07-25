@@ -21,6 +21,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 // ── Main pages ────────────────────────────────────────────────────────────────
@@ -34,6 +35,16 @@ Route::get('/information/detail/{id}', fn(int $id) => Inertia::render('Informati
 Route::get('/aspirationForm',          fn() => Inertia::render('AspirationForm'))->name('aspirationForm');
 Route::post('/aspirationForm',         [AspirationController::class, 'store'])->middleware('throttle:5,1')->name('aspirationForm.store');
 Route::get('/profile',                fn() => Inertia::render('LinkPage'))->name('linkPage');
+
+// ── Serve uploaded files from storage/app/public without a symlink (Plesk-safe) ─
+Route::get('/storage/{path}', function (string $path) {
+    abort_if(str_contains($path, '..'), 404);
+
+    $disk = Storage::disk('public');
+    abort_unless($disk->exists($path), 404);
+
+    return $disk->response($path, null, ['Cache-Control' => 'public, max-age=31536000']);
+})->where('path', '.*')->name('storage.serve');
 
 // ── Event short-links ─────────────────────────────────────────────────────────
 Route::redirect('/inforta', 'https://infortaumn.my.id', 301);

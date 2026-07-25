@@ -39,7 +39,7 @@ class Article extends Model
 
     public function getImageUrlAttribute(): string
     {
-        return asset('uploads/' . $this->image_path);
+        return asset('storage/' . $this->image_path);
     }
 
     public function getDateAttribute(): string
