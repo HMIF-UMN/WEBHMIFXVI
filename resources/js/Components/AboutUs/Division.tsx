@@ -124,7 +124,7 @@ export default function DivisionSection({ kpiData }: Props) {
                 transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
             >
                 {activeDivision.image && (
-                    <img src={activeDivision.image} alt={activeDivision.name} className="absolute inset-0 w-full h-full object-cover object-left md:object-[15%_center] grayscale mix-blend-luminosity opacity-80" />
+                    <img src={activeDivision.image} alt={activeDivision.name} className="absolute inset-0 w-full h-full object-cover object-center md:object-[15%_center] grayscale mix-blend-luminosity opacity-80" />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#060C17]/90 via-[#060C17]/75 to-[#060C17]/10" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#060C17] via-transparent to-transparent" />
