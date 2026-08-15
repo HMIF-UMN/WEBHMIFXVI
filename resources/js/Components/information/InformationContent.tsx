@@ -35,10 +35,10 @@ export default function InformationContent() {
 
     if (loading) {
         return (
-            <section className="font-kanit py-8 sm:py-12 lg:py-10 mx-4">
+            <section className="font-work-sans font-bold py-8 sm:py-12 lg:py-10 mx-4">
                 <SectionHeader />
                 <div className="flex items-center justify-center py-12">
-                    <p className="text-gray-400">Loading articles...</p>
+                    <p className="text-white">Loading articles...</p>
                 </div>
             </section>
         );
@@ -46,10 +46,10 @@ export default function InformationContent() {
 
     if (error || articles.length === 0) {
         return (
-            <section className="font-kanit py-8 sm:py-12 lg:py-10 mx-4">
+            <section className="font-work-sans font-bold py-8 sm:py-12 lg:py-10 mx-4">
                 <SectionHeader />
                 <div className="flex items-center justify-center py-12">
-                    <p className="text-red-400">{error ?? 'No articles available.'}</p>
+                    <p className="text-white">{error ?? 'No articles available.'}</p>
                 </div>
             </section>
         );
@@ -61,7 +61,7 @@ export default function InformationContent() {
     const hasMore = 4 + gridCount < articles.length;
 
     return (
-        <section className="font-kanit py-8 sm:py-12 lg:py-10 mx-4">
+        <section className="font-work-sans font-bold py-8 sm:py-12 lg:py-10 mx-4">
             <SectionHeader />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
                 <CardInformation
@@ -104,7 +104,7 @@ export default function InformationContent() {
                         <div className="flex justify-center mt-8">
                             <button
                                 onClick={() => setGridCount((prev) => prev + GRID_PAGE_SIZE)}
-                                className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-full border border-slate-100/35 text-slate-100 hover:bg-slate-800/50 transition-colors duration-200"
+                                className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-full border border-slate-100/35 text-white hover:bg-slate-800/50 transition-colors duration-200"
                             >
                                 Load More
                             </button>

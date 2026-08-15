@@ -10,8 +10,8 @@ function Card2({ category = 'BEASISWA', title = 'Lorem ipsum', date = '-', image
                 <img src={image} alt={imageAlt} className="w-full h-full object-cover block" />
             </div>
             <div className="p-4 md:p-5 lg:p-6 flex flex-col gap-3 flex-1 z-10">
-                <span className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest text-slate-900 w-fit" style={{ backgroundColor: getCategoryColor(category) }}>{getCategoryLabel(category)}</span>
-                <h3 className="text-lg sm:text-xl md:text-2xl font-black text-slate-100 line-clamp-3 leading-tight tracking-tight">{title}</h3>
+                <span className="inline-block px-3 py-1 rounded-full text-xs font-work-sans font-bold uppercase tracking-widest text-white w-fit" style={{ backgroundColor: getCategoryColor(category) }}>{getCategoryLabel(category)}</span>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-slate-100 line-clamp-3 leading-tight tracking-tight">{title}</h3>
                 <p className="text-xs sm:text-sm text-slate-500">{date}</p>
                 <button onClick={onReadMore} className="inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border border-slate-100/35 text-slate-100 hover:bg-slate-800/50 transition-colors duration-200 w-fit mt-auto">
                     Read More <span className="text-xs">{'>'}</span>
