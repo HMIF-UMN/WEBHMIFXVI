@@ -90,7 +90,7 @@ export default function InformationDetail({ id }: Props) {
                                     <span className="text-xs">←</span> Back
                                 </button>
                                 <div className="flex flex-wrap gap-2 mb-4">
-                                    <span className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest text-slate-900" style={{ backgroundColor: getCategoryColor(article.category) }}>{getCategoryLabel(article.category)}</span>
+                                    <span className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest text-white" style={{ backgroundColor: getCategoryColor(article.category) }}>{getCategoryLabel(article.category)}</span>
                                 </div>
                                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-100 mb-3 leading-tight tracking-tight">{article.title}</h1>
                                 <p className="text-xs sm:text-sm text-slate-500 mb-6">{article.date}</p>
