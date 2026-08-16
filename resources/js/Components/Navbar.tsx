@@ -21,7 +21,7 @@ export default function Navbar() {
     return (
         <header className="fixed top-10 inset-x-0 z-50 flex justify-center px-4 md:px-8">
             <nav
-                className="relative flex w-full max-w-[87.5rem] items-center justify-between rounded-[2rem] bg-[#3C404A]/20 px-10 py-5 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl backdrop-saturate-150"
+                className="relative flex w-full max-w-[87.5rem] items-center justify-between rounded-[2rem] bg-[#0B1524]/80 px-10 py-5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl backdrop-saturate-150"
                 aria-label="Primary"
             >
                 <div
@@ -55,7 +55,7 @@ export default function Navbar() {
                 <button
                     aria-label={navbarOpen ? "Close menu" : "Open menu"}
                     onClick={() => setNavbarOpen((s) => !s)}
-                    className="relative z-10 ml-4 p-2 text-white md:hidden"
+                    className="relative z-10 ml-4 p-2 text-white md:hidden cursor-pointer"
                 >
                     {navbarOpen ? (
                         <svg
@@ -110,7 +110,7 @@ export default function Navbar() {
                 </ul>
 
                 {navbarOpen && (
-                    <div className="absolute left-0 top-[calc(100%+16px)] w-full rounded-3xl bg-[#3C404A]/40 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl backdrop-saturate-150 md:hidden">
+                    <div className="absolute left-0 top-[calc(100%+16px)] w-full rounded-3xl bg-[#0B1524]/95 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.6)] backdrop-blur-2xl backdrop-saturate-150 md:hidden">
                         <div
                             className="pointer-events-none absolute inset-0 rounded-3xl p-px bg-gradient-to-b from-white/30 to-[#005696]/80"
                             style={{
@@ -120,7 +120,7 @@ export default function Navbar() {
                                 maskComposite: "exclude",
                             }}
                         />
-                        <ul className="flex flex-col gap-6">
+                        <ul className="flex flex-col gap-6 relative z-10">
                             {navItems.map((item) => {
                                 const isActive =
                                     item.href === "/"
