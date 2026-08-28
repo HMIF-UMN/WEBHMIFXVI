@@ -94,7 +94,7 @@ export default function InformationDetail({ id }: Props) {
             <Head title={article.title} />
             <section className="min-h-screen bg-slate-950 flex flex-col items-center px-4 md:px-8 pt-24 sm:pt-28 lg:pt-32 pb-8 sm:pb-12 lg:pb-16">
                 <div className="w-full max-w-[87.5rem]">
-                    <div className="font-kanit grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
+                    <div className="font-kanit grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 lg:gap-8 items-start">
                         <div className="flex flex-col rounded-2xl overflow-hidden border border-cyan-400/40 bg-slate-900/70">
                             <div className="p-4 md:p-5 lg:p-6">
                                 <button
@@ -115,12 +115,8 @@ export default function InformationDetail({ id }: Props) {
                                         {getCategoryLabel(article.category)}
                                     </span>
                                 </div>
-                                <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-100 mb-3 leading-tight tracking-tight">
-                                    {article.title}
-                                </h1>
-                                <p className="text-xs sm:text-sm text-slate-500 mb-6">
-                                    {article.date}
-                                </p>
+                                <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-100 mb-3 leading-tight tracking-tight">{article.title}</h1>
+                                <p className="text-xs sm:text-sm text-slate-500 mb-6">{article.date}</p>
                                 <div className="rounded-lg overflow-hidden mb-6 md:mb-8">
                                     <img
                                         src={article.image_url}
