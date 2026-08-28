@@ -24,12 +24,22 @@ export default function Index({ articles }: Props) {
 
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-2xl font-bold text-white">Information</h1>
-                <Link
-                    href={route('admin.information.create')}
-                    className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded transition-colors"
-                >
-                    New Article
-                </Link>
+                <div className="flex gap-2">
+                    <Link
+                        href={route('admin.information.fetch-external')}
+                        method="post"
+                        as="button"
+                        className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded transition-colors"
+                    >
+                        Pull External News
+                    </Link>
+                    <Link
+                        href={route('admin.information.create')}
+                        className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded transition-colors"
+                    >
+                        New Article
+                    </Link>
+                </div>
             </div>
 
             <div className="bg-[#1a1a1a] rounded-lg border border-gray-800 overflow-hidden">

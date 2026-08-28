@@ -113,6 +113,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/',               [AdminInformationController::class, 'index'])->name('index');
                 Route::get('create',          [AdminInformationController::class, 'create'])->name('create');
                 Route::post('/',              [AdminInformationController::class, 'store'])->name('store');
+                Route::post('/fetch-external',[AdminInformationController::class, 'fetchExternalNews'])->name('fetch-external');
                 Route::get('{article}/edit', [AdminInformationController::class, 'edit'])->name('edit');
                 Route::post('{article}',     [AdminInformationController::class, 'update'])->name('update');
                 Route::delete('{article}',   [AdminInformationController::class, 'destroy'])->name('destroy');
