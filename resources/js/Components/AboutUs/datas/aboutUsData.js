@@ -1,4 +1,4 @@
-﻿const bph = "/assets/AboutUs/division/bph/bph.webp";
+const bph = "/assets/AboutUs/division/bph/bph.webp";
 const gerald = "/assets/AboutUs/division/bph/gerald.webp";
 const ardifa = "/assets/AboutUs/division/bph/ardifa.webp";
 const victor = "/assets/AboutUs/division/bph/victor.webp";
@@ -25,7 +25,6 @@ const felix = "/assets/AboutUs/division/pm/felix.webp";
 const mikael = "/assets/AboutUs/division/pm/mikael.webp";
 const aurelio = "/assets/AboutUs/division/pm/aurelio.webp";
 const carmelo = "/assets/AboutUs/division/pm/carmelo.webp";
-const clemens = "/assets/AboutUs/division/pm/clemens.webp";
 const farras = "/assets/AboutUs/division/pm/farras.webp";
 const jonah = "/assets/AboutUs/division/pm/jonah.webp";
 const rafi = "/assets/AboutUs/division/pm/rafi.webp";
@@ -94,16 +93,6 @@ export const aboutUsData = [
                 github: "https://github.com/Carmeloanthony1",
                 linkedin:
                     "https://www.linkedin.com/in/carmelo-anthony-34612b380/",
-            },
-            {
-                name: "Clemens Putra Kusmeri",
-                image: clemens,
-                position: "Project & Events",
-                quote: "DOO BEE DOO BEE DOOO - Shaggy",
-                instagram: "https://www.instagram.com/colonized.bread/",
-                github: "https://www.instagram.com/colonized.bread/	https://github.com/not-Baguette",
-                linkedin:
-                    "https://www.linkedin.com/in/clemens-putra-667b35324/",
             },
             {
                 name: "Muhammad Farras Mu'tashim",

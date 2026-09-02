@@ -42,14 +42,6 @@ export const kpiMembers = {
             "Periode Week 9-12": 1048,
         },
     },
-    "Clemens Putra Kusmeri": {
-        overall: 2433,
-        history: {
-            "Periode Week 1-4": 500,
-            "Periode Week 5-8": 915,
-            "Periode Week 9-12": 1018,
-        },
-    },
     "Muhammad Farras Mu'tashim": {
         overall: 3052,
         history: {
