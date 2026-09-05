@@ -15,7 +15,6 @@ class KpiMemberSeeder extends Seeder
             ['Mikael Geraldius Gunawan',         'Project Manager',        ['Periode Week 1-4' => 1004, 'Periode Week 5-8' =>  831, 'Periode Week 9-12' =>  915]],
             ['Rafi Athallah Ahmad Haryanto',     'Project Manager',        ['Periode Week 1-4' => 1000, 'Periode Week 5-8' => 1001, 'Periode Week 9-12' => 1067]],
             ['Carmelo Anthony',                  'Project Manager',        ['Periode Week 1-4' => 1000, 'Periode Week 5-8' =>  916, 'Periode Week 9-12' => 1048]],
-            ['Clemens Putra Kusmeri',            'Project Manager',        ['Periode Week 1-4' =>  500, 'Periode Week 5-8' =>  915, 'Periode Week 9-12' => 1018]],
             ["Muhammad Farras Mu'tashim",        'Project Manager',        ['Periode Week 1-4' => 1000, 'Periode Week 5-8' => 1003, 'Periode Week 9-12' => 1049]],
             ['Jonah Matthew Santoso',            'Project Manager',        ['Periode Week 1-4' =>  976, 'Periode Week 5-8' => 1003, 'Periode Week 9-12' => 1053]],
             ['Aurelio Atthaya Suwisar',          'Project Manager',        ['Periode Week 1-4' => 1002, 'Periode Week 5-8' => 1002, 'Periode Week 9-12' => 1040]],
