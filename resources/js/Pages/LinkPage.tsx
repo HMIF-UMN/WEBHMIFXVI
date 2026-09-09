@@ -96,7 +96,7 @@ const rightLinks: LinkItem[] = [
         iconLeft: "-22px",
         iconTop: "35px",
         iconSize: "206px",
-        href: "https://wa.me/6285927511563",
+        href: "mailto:hmif@umn.ac.id",
         mobileRight: "16px",
         mobileBottom: "28px",
         mobileSize: "72px",
